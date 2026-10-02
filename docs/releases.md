@@ -7,7 +7,7 @@
 
 ## Pipeline (GitHub Actions, `.github/workflows/`)
 
-1. `validate.yml` — every push/PR: rustfmt, clippy -D warnings,
+1. `ci.yml` — every push/PR: rustfmt, clippy -D warnings,
    cargo test (workspace), cargo deny (advisories/licenses), tsc, eslint,
    frontend unit tests.
 2. `release.yml` — on tag `v*` (or manual channel dispatch):
