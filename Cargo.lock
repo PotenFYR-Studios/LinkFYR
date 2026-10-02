@@ -2248,6 +2248,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "linkfyr-mobile"
+version = "0.1.0"
+dependencies = [
+ "linkfyr-ipc",
+ "serde",
+ "serde_json",
+ "tauri",
+ "tauri-build",
+ "tokio",
+ "ureq",
+]
+
+[[package]]
 name = "linkfyr-model"
 version = "0.1.0"
 dependencies = [

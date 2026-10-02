@@ -146,13 +146,19 @@ DNSSEC validation posture, leak tests as first-class diagnostics.
 
 ## Phase 8 — Remote & multi-device
 
-**Now(→Later):** end-to-end authenticated remote management (phone → PC) ·
-config sync (encrypted, selective; secrets never plaintext) · mobile
-companion app (Tauri mobile) → full mobile client · multi-device support
-(shared profiles/rules via encrypted sync) · fleet management (policies,
-centralized diagnostics, telemetry with privacy controls, RBAC,
-deployment automation) — all free, self-hostable coordination. **Platform-limited:** iOS
-background constraints documented in capability matrix.
+**Shipped (v0):** authenticated remote management (phone → PC) — the Tauri 2
+mobile companion in `apps/mobile` (Android/iOS) is a remote client for
+`linkfyrd`: the same UI source as desktop, the same IPC envelopes over
+HTTP with token auth, and a setup gate on first run. The daemon also
+serves the built dashboard at `LINKFYR_WEB` for plain browser access.
+Build/run guide: `docs/mobile.md`.
+
+**Next:** selective encrypted config sync (secrets never plaintext) ·
+multi-device support (shared profiles/rules via encrypted sync) · fleet
+management (policies, centralized diagnostics, telemetry with privacy
+controls, RBAC, deployment automation) — all free, self-hostable
+coordination. **Platform-limited:** iOS background execution (documented
+in the capability matrix).
 
 ## Phase 9 — Router / headless / embedded
 

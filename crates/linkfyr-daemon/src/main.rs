@@ -110,6 +110,7 @@ fn run_windows_service() -> Result<(), String> {
         let result = rt.block_on(async {
             let opts = DaemonOptions {
                 bind: DEFAULT_BIND.into(),
+                web_bind: std::env::var("LINKFYR_WEB").unwrap_or_default(),
                 config_dir: config_dir(),
             };
             match serve(opts).await {

@@ -6,6 +6,11 @@ All notable changes to LinkFYR are documented here. Format based on
 
 ## [Unreleased]
 
+### Added (Phase 8 - mobile companion)
+
+- `apps/mobile`: Tauri 2 mobile app (Android/iOS) sharing the desktop UI source; remote client for linkfyrd over the same IPC envelopes (HTTP + token). Setup gate stores the PC address + token on-device. docs/mobile.md covers init/dev/build. Frontend gate now typechecks and builds the mobile UI in Docker.
+
+
 ### Added (enforcement v0 � Phase 3 core)
 
 - `linkfyr-enforce` crate: per-app firewall rules (Windows netsh
@@ -18,6 +23,11 @@ All notable changes to LinkFYR are documented here. Format based on
   list the exact commands. Registry: 105 implemented / 107 named.
 
 ## [Unreleased]
+
+### Added (Phase 8 - mobile companion)
+
+- `apps/mobile`: Tauri 2 mobile app (Android/iOS) sharing the desktop UI source; remote client for linkfyrd over the same IPC envelopes (HTTP + token). Setup gate stores the PC address + token on-device. docs/mobile.md covers init/dev/build. Frontend gate now typechecks and builds the mobile UI in Docker.
+
 
 Phase 2.5/2.6 — Optimization toolkit, tool registry (100+ module
 catalog), network bridges, background service, alerts.

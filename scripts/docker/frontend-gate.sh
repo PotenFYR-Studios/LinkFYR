@@ -18,4 +18,8 @@ pnpm test
 echo "== build =="
 pnpm build
 
+echo "== mobile: typecheck + build =="
+pnpm --filter linkfyr-mobile-ui typecheck
+pnpm --filter linkfyr-mobile-ui build
+
 echo "FRONTEND GATE PASSED"

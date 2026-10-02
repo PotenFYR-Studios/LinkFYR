@@ -16,7 +16,7 @@
 
 **LinkFYR**: the operating system for your Internet connections. One control layer for what your apps do on the network: which interface carries them, how much bandwidth they get, which VPN or DNS they use, how traffic behaves when quality changes - and a full, explainable history of why.
 
-[Releases](https://github.com/PotenFYR-Studios/LinkFYR/releases) · [Documentation](docs/) · [Roadmap](docs/roadmap.md) · [Daemon install](docs/daemon.md) · [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md)
+[Releases](https://github.com/PotenFYR-Studios/LinkFYR/releases) ï¿½ [Documentation](docs/) ï¿½ [Roadmap](docs/roadmap.md) ï¿½ [Daemon install](docs/daemon.md) ï¿½ [Contributing](CONTRIBUTING.md) ï¿½ [Security](SECURITY.md)
 
 </div>
 
@@ -131,7 +131,9 @@ crates/
   linkfyr-cli         the `linkfyr` binary
   linkfyr-protocol    Fusion tunnel protocol (Phase 6 skeleton)
   linkfyr-edge        Edge node (Phase 6 skeleton)
-apps/desktop          Tauri 2 shell - the only crate allowed to import Tauri
+apps/desktop          Tauri 2 desktop shell - the only crate allowed to import Tauri
+apps/mobile           Tauri 2 mobile companion (remote client for linkfyrd)
+deploy/               systemd unit, launchd plist for linkfyrd
 packages/types        TypeScript mirror of the wire contract
 deploy/               systemd unit, launchd plist for linkfyrd
 docs/                 architecture, roadmap, threat model, capability matrix, ADRs
@@ -147,6 +149,7 @@ Architecture rule (ADR-0001): all capability lives in Rust behind `linkfyr-ipc`;
 | [`docs/platform-support.md`](docs/platform-support.md) | per-OS capability matrix (never fakes parity) |
 | [`docs/roadmap.md`](docs/roadmap.md) | every spec feature, classified Now/Next/Later, nothing dropped |
 | [`docs/daemon.md`](docs/daemon.md) | installing linkfyrd (Windows service, systemd, launchd) |
+| [`docs/mobile.md`](docs/mobile.md) | building the Tauri 2 mobile companion (Android/iOS) |
 | [`docs/threat-model.md`](docs/threat-model.md) | STRIDE model + fail-open/fail-closed policy table |
 | [`docs/security.md`](docs/security.md) | IPC hardening, supply chain, signing, secrets |
 | [`docs/competitors.md`](docs/competitors.md) | living competitor matrix with evidence grades |

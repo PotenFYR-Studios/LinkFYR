@@ -15,6 +15,7 @@ members = [
     "crates/linkfyr-protocol",
     "crates/linkfyr-edge",
     "apps/desktop/src-tauri",
+    "apps/mobile/src-tauri",
 ]
 
 [workspace.package]
