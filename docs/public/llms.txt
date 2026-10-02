@@ -1,0 +1,19 @@
+# LinkFYR
+
+> Free, open (Apache-2.0 + Commons Clause) control layer for a machine's Internet connections: 108 real network tools, tiered network bridges, traffic control, a background service (linkfyrd), and desktop, mobile and CLI clients over one versioned IPC contract. Local-only by default.
+
+## Docs
+
+- [Architecture](https://linkfyr.docs.potenfyr.in/docs/architecture/): process topology, crate map, data flow, budgets
+- [Roadmap](https://linkfyr.docs.potenfyr.in/docs/roadmap/): every feature, classified; nothing dropped
+- [Platform support](https://linkfyr.docs.potenfyr.in/docs/platform-support/): per-OS capability matrix
+- [linkfyrd service](https://linkfyr.docs.potenfyr.in/docs/daemon/): Windows service, systemd, launchd
+- [Mobile companion](https://linkfyr.docs.potenfyr.in/docs/mobile/): Tauri 2 app for Android and iOS
+- [Threat model](https://linkfyr.docs.potenfyr.in/docs/threat-model/): STRIDE and fail-open/fail-closed policy
+- [Security](https://linkfyr.docs.potenfyr.in/docs/security/): IPC hardening, supply chain, signing
+- [Releases](https://linkfyr.docs.potenfyr.in/docs/releases/): idempotent release pipeline
+
+## Source
+
+- [GitHub](https://github.com/PotenFYR-Studios/LinkFYR)
+- [Releases](https://github.com/PotenFYR-Studios/LinkFYR/releases)

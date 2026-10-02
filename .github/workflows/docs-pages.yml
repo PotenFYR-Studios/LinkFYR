@@ -26,6 +26,17 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Enable pnpm
+        run: corepack enable
+
+      - name: Install dependencies
+        working-directory: docs
+        run: pnpm install --frozen-lockfile
+
       - name: Configure GitHub Pages
         id: pages
         if: github.event_name != 'pull_request'
@@ -33,17 +44,21 @@ jobs:
         with:
           enablement: true
 
-      - name: Build docs with Jekyll
-        uses: actions/jekyll-build-pages@v1
-        with:
-          source: ./docs
-          destination: ./docs/_site
+      - name: Build docs site
+        working-directory: docs
+        run: |
+          BASE_URL="${{ steps.pages.outputs.base_url }}"
+          case "$BASE_URL" in
+            ""|*github.io*) export VITE_BASE="/LinkFYR/" ;;
+            *) export VITE_BASE="/" ;;
+          esac
+          pnpm build
 
       - name: Upload Pages artifact
         if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v5
         with:
-          path: docs/_site
+          path: docs/dist
 
   deploy:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'

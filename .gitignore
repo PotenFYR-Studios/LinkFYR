@@ -25,3 +25,5 @@ Thumbs.db
 *.key
 *.pfx
 !.github/signing/*.pub
+docs/dist/
+docs/node_modules/
