@@ -24,7 +24,7 @@
 ## Docs
 
 - [ ] This PR changes no tool ids, IPC shapes, config keys, or user-visible behavior (skip this section)
-- [ ] `docs/` pages updated to match the new behavior
+- [ ] `docs/src/docs/content.ts` (docs site content) updated to match the new behavior
 - [ ] `CHANGELOG.md` updated (new tools, behavior changes)
 - [ ] README updated where relevant
 

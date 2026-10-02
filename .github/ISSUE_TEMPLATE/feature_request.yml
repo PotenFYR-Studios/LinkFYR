@@ -37,7 +37,7 @@ body:
     attributes:
       label: Before submitting
       options:
-        - label: I checked the [roadmap](https://github.com/PotenFYR-Studios/LinkFYR/blob/main/docs/content/roadmap.md) and this is not already planned
+        - label: I checked the [roadmap](https://github.com/PotenFYR-Studios/LinkFYR/blob/main/https://linkfyr.docs.potenfyr.in/docs/roadmap/) and this is not already planned
           required: true
         - label: I searched existing issues for duplicates
           required: true

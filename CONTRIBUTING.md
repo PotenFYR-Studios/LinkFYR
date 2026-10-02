@@ -50,8 +50,7 @@ gate runs in CI [ci.yml](.github/workflows/ci.yml).
 
 ## Documentation
 
-- Behavior changes update the matching page in `docs/` (`architecture.md`,
-  `platform-support.md`, `roadmap.md`, `threat-model.md`, ...).
+- Behavior changes update the matching section in `docs/src/docs/content.ts` (the docs site content) or the site under `docs/src`.
 - New tools must appear in the registry with a real implementation and an honest
   capability state, be listed in `CHANGELOG.md`, and keep the roadmap's
   preservation rule: nothing is ever deleted, deferred features keep their hooks.

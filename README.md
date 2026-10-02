@@ -17,7 +17,7 @@
 
 **LinkFYR**: the operating system for your Internet connections. One control layer for what your apps do on the network: which interface carries them, how much bandwidth they get, which VPN or DNS they use, how traffic behaves when quality changes - and a full, explainable history of why.
 
-[Releases](https://github.com/PotenFYR-Studios/LinkFYR/releases) � [Documentation](docs/) � [Roadmap](docs/content/roadmap.md) � [Daemon install](docs/content/daemon.md) � [Contributing](CONTRIBUTING.md) � [Security](SECURITY.md)
+[Releases](https://github.com/PotenFYR-Studios/LinkFYR/releases) � [Documentation](docs/) � [Roadmap](https://linkfyr.docs.potenfyr.in/docs/roadmap/) � [Daemon install](https://linkfyr.docs.potenfyr.in/docs/daemon/) � [Contributing](CONTRIBUTING.md) � [Security](SECURITY.md)
 
 </div>
 
@@ -34,7 +34,7 @@ Every network tool does one slice: a speed test here, a Wi-Fi scanner there, a l
 - **Honest by design** - every tool reports its real capability state (available / needs elevation / unavailable / platform-limited), failed probes stay visible, and any capability the OS does not offer is documented rather than faked. Local-only by default: no account, no cloud, no telemetry upload path.
 - **Free and open** - every feature ships to everyone. No tiers, no entitlement gates, no locked controls.
 
-> The architecture lives in [`docs/content/architecture.md`](docs/content/architecture.md); every feature ever specified is preserved and classified in [`docs/content/roadmap.md`](docs/content/roadmap.md). The registry contains **108 implemented modules**; every entry runs for real on at least one platform, and unshipped ideas stay preserved by name in the roadmap instead of being faked.
+> The architecture lives in [Architecture](https://linkfyr.docs.potenfyr.in/docs/architecture/); every feature ever specified is preserved and classified in [Roadmap](https://linkfyr.docs.potenfyr.in/docs/roadmap/). The registry contains **108 implemented modules**; every entry runs for real on at least one platform, and unshipped ideas stay preserved by name in the roadmap instead of being faked.
 
 ## Quick start (development)
 
@@ -114,7 +114,7 @@ probes, real UDP DNS exchanges, a real rustls handshake.
 
 ## Platforms
 
-Windows, macOS and Linux; x64, ARM64 and universal builds per release. Per-OS capability is documented honestly in [`docs/content/platform-support.md`](docs/content/platform-support.md) - where an OS does not offer an API, LinkFYR says so and picks the nearest supported alternative.
+Windows, macOS and Linux; x64, ARM64 and universal builds per release. Per-OS capability is documented honestly in [Platform support](https://linkfyr.docs.potenfyr.in/docs/platform-support/) - where an OS does not offer an API, LinkFYR says so and picks the nearest supported alternative.
 
 ## Repository layout
 
@@ -148,21 +148,21 @@ Architecture rule (ADR-0001): all capability lives in Rust behind `linkfyr-ipc`;
 
 | Doc | Contents |
 |---|---|
-| [`docs/content/architecture.md`](docs/content/architecture.md) | process topology, crate map, data flow, budgets |
-| [`docs/content/platform-support.md`](docs/content/platform-support.md) | per-OS capability matrix (never fakes parity) |
-| [`docs/content/roadmap.md`](docs/content/roadmap.md) | every spec feature, classified Now/Next/Later, nothing dropped |
-| [`docs/content/daemon.md`](docs/content/daemon.md) | installing linkfyrd (Windows service, systemd, launchd) |
-| [`docs/content/mobile.md`](docs/content/mobile.md) | building the Tauri 2 mobile companion (Android/iOS) |
-| [`docs/content/threat-model.md`](docs/content/threat-model.md) | STRIDE model + fail-open/fail-closed policy table |
-| [`docs/content/security.md`](docs/content/security.md) | IPC hardening, supply chain, signing, secrets |
-| [`docs/content/competitors.md`](docs/content/competitors.md) | living competitor matrix with evidence grades |
-| [`docs/content/user-demand-research.md`](docs/content/user-demand-research.md) | community demand to requirements, evidence-graded |
-| [`docs/content/protocol.md`](docs/content/protocol.md) | Fusion bonding protocol design (pre-benchmark) |
-| [`docs/content/ux.md`](docs/content/ux.md) | design system, motion dials, accessibility standard |
+| [Architecture](https://linkfyr.docs.potenfyr.in/docs/architecture/) | process topology, crate map, data flow, budgets |
+| [Platform support](https://linkfyr.docs.potenfyr.in/docs/platform-support/) | per-OS capability matrix (never fakes parity) |
+| [Roadmap](https://linkfyr.docs.potenfyr.in/docs/roadmap/) | every spec feature, classified Now/Next/Later, nothing dropped |
+| [linkfyrd service](https://linkfyr.docs.potenfyr.in/docs/daemon/) | installing linkfyrd (Windows service, systemd, launchd) |
+| [Mobile companion](https://linkfyr.docs.potenfyr.in/docs/mobile/) | building the Tauri 2 mobile companion (Android/iOS) |
+| [Threat model](https://linkfyr.docs.potenfyr.in/docs/threat-model/) | STRIDE model + fail-open/fail-closed policy table |
+| [Security engineering](https://linkfyr.docs.potenfyr.in/docs/security/) | IPC hardening, supply chain, signing, secrets |
+| [Competitor matrix](https://linkfyr.docs.potenfyr.in/docs/competitors/) | living competitor matrix with evidence grades |
+| [User demand research](https://linkfyr.docs.potenfyr.in/docs/user-demand-research/) | community demand to requirements, evidence-graded |
+| [Fusion protocol](https://linkfyr.docs.potenfyr.in/docs/protocol/) | Fusion bonding protocol design (pre-benchmark) |
+| [UX and design system](https://linkfyr.docs.potenfyr.in/docs/ux/) | design system, motion dials, accessibility standard |
 
 ## Privacy
 
-Local-only by default. Measurements never leave the device unless you explicitly run an opt-in external tool (public IP, geolocation, RDAP); there is no account, no cloud dependency and no telemetry upload path. See [`docs/content/security.md`](docs/content/security.md).
+Local-only by default. Measurements never leave the device unless you explicitly run an opt-in external tool (public IP, geolocation, RDAP); there is no account, no cloud dependency and no telemetry upload path. See [Security engineering](https://linkfyr.docs.potenfyr.in/docs/security/).
 
 ## Contributing
 

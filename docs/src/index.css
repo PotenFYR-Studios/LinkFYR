@@ -389,3 +389,28 @@ pre {
   border-top: 1px solid var(--stroke-soft);
   margin: 2em 0;
 }
+
+/* Typed doc blocks (discord-botlists docs architecture) */
+.nav-active { color: var(--ink) !important; }
+.docs-content h1 { font-size: 1.6rem; letter-spacing: -0.01em; margin: 0 0 6px; }
+.docs-content h2 { font-size: 1.15rem; margin: 1.5em 0 0.6em; border-bottom: 1px solid var(--stroke-soft); padding-bottom: 6px; }
+.md-blurb { color: var(--ink-faint); margin: 0 0 18px; }
+.md-text { color: var(--ink-muted); margin: 0.9em 0; }
+.md-h3 { margin: 1.6em 0 0.5em; font-size: 1.05rem; letter-spacing: -0.01em; }
+.md-list { margin: 0.8em 0; padding-left: 20px; color: var(--ink-muted); }
+.md-list li { margin: 4px 0; }
+.md-note { margin: 1em 0; padding: 12px 16px; border-radius: 10px; font-size: 0.92em; color: var(--ink-muted); border-left: 3px solid var(--accent); background: color-mix(in srgb, var(--accent) 8%, transparent); }
+.md-note-warn { border-left-color: #ffc06e; background: color-mix(in srgb, #ffc06e 9%, transparent); }
+.md-note-tip { border-left-color: var(--ok); background: color-mix(in srgb, var(--ok) 10%, transparent); }
+.md-note-label { display: inline-block; font-weight: 700; margin-right: 8px; font-size: 0.76em; letter-spacing: 0.07em; text-transform: uppercase; color: var(--accent-soft); }
+.md-note-warn .md-note-label { color: #ffc06e; }
+.md-note-tip .md-note-label { color: var(--ok); }
+.md-table-wrap { overflow-x: auto; margin: 1em 0; }
+.md-table { width: 100%; border-collapse: collapse; font-size: 0.9em; }
+.md-table th, .md-table td { border: 1px solid var(--stroke-soft); padding: 7px 10px; text-align: left; color: var(--ink-muted); }
+.md-table th { color: var(--ink); background: var(--surface); }
+.code-block { margin: 1em 0; background: var(--surface); border: 1px solid var(--stroke-soft); border-radius: 12px; overflow: hidden; }
+.code-head { padding: 6px 12px; border-bottom: 1px solid var(--stroke-soft); background: var(--raised); }
+.code-lang { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-faint); }
+.code-block pre { margin: 0; padding: 14px 16px; overflow-x: auto; color: var(--ink-muted); }
+.md-body .code-block pre { background: none; border: 0; border-radius: 0; }

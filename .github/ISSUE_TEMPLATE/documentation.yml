@@ -8,7 +8,7 @@ body:
     attributes:
       label: Page or topic
       description: Link the file in `docs/` or name the command/tool it covers.
-      placeholder: "docs/content/daemon.md - installing linkfyrd"
+      placeholder: "https://linkfyr.docs.potenfyr.in/docs/daemon/ - installing linkfyrd"
     validations:
       required: true
 

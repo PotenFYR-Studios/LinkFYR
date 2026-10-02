@@ -80,9 +80,9 @@ export function SettingsView() {
         </Row>
         <Row
           label="System service"
-          hint="For always-on operation without the app (for example during exams), install the linkfyrd service; see docs/content/daemon.md."
+          hint="For always-on operation without the app (for example during exams), install the linkfyrd service; see https://linkfyr.docs.potenfyr.in/docs/daemon/."
         >
-          <span className="text-2xs text-ink-faint">docs/content/daemon.md</span>
+          <span className="text-2xs text-ink-faint">https://linkfyr.docs.potenfyr.in/docs/daemon/</span>
         </Row>
       </section>
     </div>
