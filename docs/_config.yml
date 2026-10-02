@@ -1,0 +1,8 @@
+title: LinkFYR
+description: The operating system for your Internet connections
+theme: jekyll-theme-primer
+plugins:
+  - jekyll-relative-links
+relative_links:
+  enabled: true
+  collections: true

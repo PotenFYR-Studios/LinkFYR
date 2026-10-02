@@ -1,0 +1,29 @@
+name: Documentation
+description: Report missing, unclear, or incorrect documentation
+labels: [documentation]
+title: "[Docs]: "
+body:
+  - type: input
+    id: page
+    attributes:
+      label: Page or topic
+      description: Link the file in `docs/` or name the command/tool it covers.
+      placeholder: "docs/daemon.md - installing linkfyrd"
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is wrong or missing?
+      description: Quote the part that is incorrect, or describe what a reader cannot figure out.
+    validations:
+      required: true
+
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggested correction
+      description: If you know what it should say, write it here.
+    validations:
+      required: false

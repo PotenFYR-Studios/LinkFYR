@@ -1,73 +1,63 @@
 # Security Policy
 
-## Supported versions
+## Supported Versions
 
 | Version | Supported |
-| --- | --- |
-| 0.1.x | yes |
-| < 0.1 | no |
+|---------|-----------|
+| 0.1.0 (main) | yes |
 
-## Reporting a vulnerability
+## Reporting a Vulnerability
 
-**Do not open a public issue for exploitable vulnerabilities.**
+**Please do not report security vulnerabilities through public GitHub issues.**
 
-Report privately through [GitHub's private vulnerability reporting](https://github.com/PotenFYR-Studios/linkfyr/security/advisories/new) on this repository.
+Use GitHub's **private vulnerability reporting** for this repository:
 
-Include what you can:
+1. Go to the **Security** tab of [PotenFYR-Studios/LinkFYR](https://github.com/PotenFYR-Studios/LinkFYR/security)
+2. Click **Report a vulnerability**
+3. Describe the issue and how to reproduce it
 
-- Affected component and version (`linkfyr --version` or the release tag)
-- A minimal proof of concept or reproduction steps
-- Impact assessment (what an attacker could do)
-- Any suggested fix (optional)
+If private vulnerability reporting is not available, contact the maintainers directly through [PotenFYR Studios](https://potenfyr.in).
 
-You will get an acknowledgment within 72 hours, followed by status updates as
-the fix progresses. We credit reporters in the release notes by default; tell
-us if you prefer to stay anonymous.
+Please include as much of the following as you can:
 
-## Scope
+- Affected component (engine/IPC, `linkfyrd` transport, CLI, desktop shell, mobile companion, release pipeline)
+- LinkFYR version and platform (Windows/macOS/Linux, architecture)
+- Reproduction steps, including whether elevation is required to trigger it
+- Impact assessment: what an attacker gains, and from what starting position.
+  Attacks that require pre-existing admin/root are still interesting, but say so explicitly.
 
-**In scope:**
+**Scrub before pasting:** remove daemon tokens, public IPs, hostnames you consider
+private, and any real network inventory.
 
-- Local privilege escalation through `linkfyrd` or the desktop IPC surface
-  (named pipe / unix socket authentication, command authorization)
-- Rule bypass: an unprivileged process escaping per-app firewall, shaping, or
-  routing policy in a way LinkFYR's capability matrix claims to prevent
-- The Fusion tunnel protocol and Edge node (`linkfyr-protocol`,
-  `linkfyr-edge`): authentication bypass, path confusion, replay, downgrade
-- The update path: manifest forgery, signature verification bypass, downgrade
-  attacks, artifact substitution
-- Secret handling: tunnel keys or tokens leaking into logs, config files, or
-  diagnostics exports
-- Telemetry leakage: browsing/destination metadata leaving the device
-  against the local-only promise
+## What to Expect
 
-**Out of scope:**
+- Acknowledgement target: within 48 hours.
+- Triage with you in the thread; severity assessed on real impact, not on how
+  exotic the path looks.
+- Fix ships through the normal release pipeline. Artifacts are checksummed
+  (`SHA256SUMS`) on every release, and signed update manifests when signing keys
+  are configured.
+- Credit in the changelog unless you prefer otherwise.
 
-- Weaknesses that require the operator to disable documented protections
-  (fail-open policies the user chose, disabled kill switch)
-- Vulnerabilities in the operating system or platform filtering layers
-  themselves (report to the vendor)
-- The simulator (`--simulated`, `LINKFYR_SIM=1`) — it is a test fixture, not
-  a security boundary
-- Denial of service by local administrators (they already control the machine)
+## Scope Notes
 
-## Built-in defenses
+**In scope:** daemon token and transport authentication (threat model T15), IPC
+surface validation, tool subprocess argument handling (injection through targets,
+interface names, bridge specs, program paths), elevation boundaries, the release
+and update pipeline, and the mobile setup gate.
 
-These are documented behavior, not claims to test around:
+**Out of scope:** social engineering, vulnerabilities in third-party services a
+tool queries (DoH providers, RDAP, Cloudflare), and purely local denial of
+service that requires the user to run a destructive action they explicitly
+confirmed.
 
-- The GUI/CLI never run elevated; the privileged service exposes a small,
-  schema-checked IPC surface with deny-by-default authorization
-- Config corruption falls back through backup rotation to safe mode; a bad
-  config can disable LinkFYR but cannot disable your Internet
-- Updates require a valid signature before swap (Ed25519-signed manifests)
-- Logs are bounded and redacted; secrets are zero-on-drop types that never
-  serialize; diagnostics export is explicit and previewable
-- Per-feature fail-open/fail-closed policy is published in
-  `docs/threat-model.md` and surfaced in the UI
+**Built-in defenses** (full detail in [docs/threat-model.md](threat-model.md)):
 
-## Data handling
-
-LinkFYR is local-only by default: interface counters, latency probes, and
-traffic history stay on device. Probe targets are configurable public
-resolvers contacted with anonymous TCP connects. There is no telemetry
-upload path, no account, and no cloud dependency in this repository.
+- Local-only by default; there is no telemetry upload path anywhere in the code.
+- `linkfyrd` binds loopback unless remote access is explicitly enabled; token is
+  0600, compared in constant time, and remote requests require it.
+- Every subprocess invocation is argument-vector style (no shell), with target
+  validation and hard timeouts.
+- Enforcement rules are owner-tagged: removal can only ever delete what LinkFYR
+  created.
+- Config corruption cannot brick the app: backup rotation plus safe-mode fallback.

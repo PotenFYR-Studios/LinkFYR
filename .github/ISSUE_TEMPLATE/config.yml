@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Documentation
+    url: https://linkfyr.docs.potenfyr.in
+    about: Architecture, roadmap, security model, daemon and mobile guides
+  - name: Security vulnerability
+    url: https://github.com/PotenFYR-Studios/LinkFYR/security
+    about: Report vulnerabilities confidentially via private vulnerability reporting; do not open a public issue

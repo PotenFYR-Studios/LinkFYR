@@ -1,0 +1,33 @@
+name: Security Concern
+description: Hardening guidance, security documentation gaps, or questions about security behavior
+labels: [security]
+title: "[Security]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        > [!CAUTION]
+        > **Do not describe an exploitable vulnerability here.** This form is public. For actual vulnerabilities, use the confidential process in [SECURITY.md](../blob/main/SECURITY.md) (GitHub private vulnerability reporting).
+
+        Use this form for public-facing security topics: hardening documentation, deployment guidance, or how a security feature is *documented* to behave.
+
+  - type: dropdown
+    id: topic
+    attributes:
+      label: Topic
+      options:
+        - Hardening / deployment guidance is missing or unclear
+        - Security behavior is documented incorrectly
+        - Question about how a security feature works (daemon token, IPC surface, elevation, update signatures)
+        - Remote access / reverse proxy / VPN setup help
+        - Mobile companion authentication question
+    validations:
+      required: true
+
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: What should be clarified, corrected, or documented? Include the relevant docs page or config/env var.
+    validations:
+      required: true

@@ -1,50 +1,80 @@
 # Contributing to LinkFYR
 
-Thank you for contributing. A few rules keep this codebase healthy.
+Thanks for wanting to make LinkFYR better. This guide mirrors the org
+conventions used across PotenFYR Studios repositories.
 
-## Ground rules
+## Project Overview
 
-1. **Read `AGENTS.md` first.** It lists the non-negotiables: no Tauri types
-   outside `apps/desktop`, additive-only wire changes, feature preservation,
-   fail-safe policies for anything that touches traffic.
-2. **Tests first.** New engine behavior lands with tests that failed before
-   the implementation existed. Bug fixes need a reproduction test.
-3. **Determinism.** Scheduler/health/rules logic must be testable without
-   real NICs. Use `linkfyr_network::sim::SimMonitor` for scenarios.
-4. **No fake parity.** If a platform can't do something, the capability
-   matrix and UI say so. Never render fabricated data.
+LinkFYR is a free, open (Apache-2.0 + Commons Clause) control layer for a
+machine's Internet connections: a 108-tool optimization registry, tiered network
+bridges, a background service, desktop and mobile apps, and a CLI, all speaking
+one versioned IPC contract. The architecture rule (ADR-0001) is that all
+capability lives in Rust behind `linkfyr-ipc`; GUI, CLI, daemon, and mobile are
+interchangeable clients. Every tool must be real: no mocks, no fabricated
+results, and honest capability states when the OS cannot do something.
 
-## Workflow
+## Prerequisites
+
+- Rust stable (1.85+)
+- Node 22+ and pnpm (`npm i -g pnpm`)
+- Docker (the full verification gate runs in containers)
+- Optional, only for desktop/mobile dev: [Tauri 2 prerequisites](https://tauri.app/start/prerequisites/)
+
+## Building
 
 ```bash
-# 1. Fork + branch
-git checkout -b feat/your-feature
-
-# 2. Make the change with tests
-
-# 3. Run the gates (CI enforces the same)
-cargo fmt --all -- --check
-cargo clippy --workspace --all-targets -- -D warnings
-cargo test --workspace
-pnpm typecheck && pnpm lint && pnpm test && pnpm build
-
-# 4. Open a PR with: what changed, why, evidence (test output / screenshots)
+pnpm install
+pnpm build                                    # frontend -> apps/desktop/dist
+cargo build --workspace                       # engine, CLI, daemon, all crates
+cargo run -p linkfyr-cli -- --simulated status
+# Desktop app with hot reload:
+cargo tauri dev                               # run from apps/desktop
 ```
 
-## Commit style
+## Testing Your Changes
 
-Conventional commits: `feat:`, `fix:`, `docs:`, `chore:`, `refactor:`,
-`test:`. Scope optional: `feat(rules): median jitter windows`. Release notes
-are generated from these.
+The complete gate runs in Docker so you never need a matching host toolchain:
 
-## UI changes
+```bash
+# Windows
+powershell -File scripts/test-docker.ps1
+# Linux / macOS
+./scripts/test-docker.sh
+```
 
-Design direction lives in `docs/ux.md` (tokens, motion dials, accessibility).
-The contrast test (`src/__tests__/contrast.test.ts`) must pass in BOTH
-themes; fix the tokens, not the test. Every interactive element does
-something real; every data view has empty/loading/error states.
+That runs `cargo fmt --check`, clippy with warnings denied, the Windows
+cross-target check, the full workspace test suite, CLI smokes, and the frontend
+typecheck/lint/test/build (desktop and mobile). Container tests use real sockets,
+real `ping` probes, real UDP DNS exchanges, and a real rustls handshake. The same
+gate runs in CI [ci.yml](.github/workflows/ci.yml).
 
-## Licensing
+## Documentation
 
-By contributing you agree your work is licensed under the repository license
-(Apache-2.0 with Commons Clause, see `LICENSE` and `NOTICE.md`).
+- Behavior changes update the matching page in `docs/` (`architecture.md`,
+  `platform-support.md`, `roadmap.md`, `threat-model.md`, ...).
+- New tools must appear in the registry with a real implementation and an honest
+  capability state, be listed in `CHANGELOG.md`, and keep the roadmap's
+  preservation rule: nothing is ever deleted, deferred features keep their hooks.
+- The user-facing README stays accurate; never claim more than the code does.
+
+## Pull Requests
+
+- Follow [conventional commits](https://www.conventionalcommits.org/) (`feat:`,
+  `fix:`, `docs:`, `chore:`, `refactor:`, `test:`).
+- One focused change per PR; large work lands in reviewable slices.
+- Use the pull request template; state what you exercised and on which platform.
+- Platform-specific behavior must be labeled: if a tool only works on Linux,
+  say so in its blurb and report `platform_limited` where appropriate.
+
+## CI
+
+`ci.yml` runs formatting, clippy, tests and the cross-platform compile checks on
+every push and PR. `release.yml` publishes tagged releases with checksums and a
+changelog section taken from `CHANGELOG.md`; re-tagging the same version updates
+the builds and merges the changelog instead of duplicating.
+
+## Reporting Issues
+
+Use the issue templates: Bug Report, Feature Request, Documentation, Question.
+For security topics read [SECURITY.md](SECURITY.md) first; actual
+vulnerabilities go through private vulnerability reporting, never a public issue.

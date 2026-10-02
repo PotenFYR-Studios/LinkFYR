@@ -1,0 +1,30 @@
+name: Question
+description: Ask how something works before opening a feature request or bug report
+labels: [question]
+title: "[Question]: "
+body:
+  - type: textarea
+    id: question
+    attributes:
+      label: Your question
+      description: Be specific; include the command, tool id, or screen involved.
+      placeholder: |
+        Does `linkfyr bridge create` work without pulling the Ethernet cable?
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: What have you tried?
+      description: Which docs pages did you check, and what did you try on your machine?
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Before asking
+      options:
+        - label: I checked the [documentation](https://linkfyr.docs.potenfyr.in), including the relevant `docs/` page
+          required: true

@@ -4,10 +4,11 @@
 
 [![GitHub](https://img.shields.io/badge/GitHub-PotenFYR--Studios-181717?style=for-the-badge&logo=github&logoColor=white&labelColor=1c1e26)](https://github.com/PotenFYR-Studios/LinkFYR)
 [![Discord](https://img.shields.io/badge/Discord-Join%20us-5865F2?style=for-the-badge&logo=discord&logoColor=white&labelColor=1c1e26)](https://discord.com/invite/zUaN2FPBec)
+[![Docs](https://img.shields.io/badge/docs-linkfyr.docs.potenfyr.in-6b97ff?style=for-the-badge&logo=readthedocs&logoColor=white&labelColor=1c1e26)](https://linkfyr.docs.potenfyr.in)
 [![Releases](https://img.shields.io/github/v/release/PotenFYR-Studios/LinkFYR?style=for-the-badge&logo=github&logoColor=white&labelColor=1c1e26&color=6b97ff)](https://github.com/PotenFYR-Studios/LinkFYR/releases)
 [![View](https://komarev.com/ghpvc/?username=PotenFYR-Studios-LinkFYR&color=3ddc97&style=for-the-badge&label=VIEW&labelColor=1c1e26)](https://github.com/PotenFYR-Studios/LinkFYR)
 
-[![CI](https://img.shields.io/github/actions/workflow/status/PotenFYR-Studios/LinkFYR/validate.yml?branch=main&style=flat-square&logo=githubactions&label=CI&color=2ea043&labelColor=1c1e26)](https://github.com/PotenFYR-Studios/LinkFYR/actions/workflows/validate.yml)
+[![CI](https://img.shields.io/github/actions/workflow/status/PotenFYR-Studios/LinkFYR/ci.yml?branch=main&style=flat-square&logo=githubactions&label=CI&color=2ea043&labelColor=1c1e26)](https://github.com/PotenFYR-Studios/LinkFYR/actions/workflows/ci.yml)
 [![Platforms](https://img.shields.io/badge/platforms-Windows%20%C2%B7%20macOS%20%C2%B7%20Linux%20%C2%B7%20x64%2Farm64%2Funiversal-9b8cff?style=flat-square&labelColor=1c1e26)](#platforms)
 [![Tools](https://img.shields.io/badge/registry-105%20live%20tools%20%2F%20107%20named-6b97ff?style=flat-square&labelColor=1c1e26)](#optimization-toolkit)
 [![license](https://img.shields.io/badge/license-Apache--2.0%20%2B%20Commons%20Clause-6b97ff.svg?style=flat-square&labelColor=1c1e26)](LICENSE)
@@ -168,6 +169,14 @@ PRs welcome - see [CONTRIBUTING.md](CONTRIBUTING.md). The verification gate runs
 ## License
 
 Apache-2.0 with the Commons Clause condition - free to use, fork and build on, including commercially; you may not sell the software itself as a paid product. See [LICENSE](LICENSE).
+
+## Contribution Graph
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/PotenFYR-Studios/LinkFYR/output/github-snake-dark.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/PotenFYR-Studios/LinkFYR/output/github-snake.svg" />
+  <img alt="LinkFYR contribution graph" src="https://raw.githubusercontent.com/PotenFYR-Studios/LinkFYR/output/github-snake.svg" width="100%" />
+</picture>
 
 ## Star History
 
