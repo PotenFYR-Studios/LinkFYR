@@ -764,34 +764,27 @@ pub fn catalog() -> Vec<ToolDescriptor> {
             "prio qdisc + DSCP EF filter (Linux tc)",
             false,
         ),
-    ]
-}
-
-/// Planned modules, preserved by name and design. Total catalog
-/// (implemented + planned) exceeds 100 modules; each planned entry has
-/// a real mechanism chosen, never a placeholder.
-pub fn planned_catalog() -> Vec<ToolDescriptor> {
-    let d = |id: &str, name: &str, group: &str, blurb: &str| ToolDescriptor {
-        id: id.into(),
-        name: name.into(),
-        group: group.into(),
-        blurb: blurb.into(),
-        takes_target: false,
-    };
-    vec![
         d(
             "per_app_limits",
             "Per-app rate limits",
             "Control",
-            "Rate ceilings per process — needs flow accounting + rate shaping (block/allow is live; this is the rate knob)",
+            "Rate ceilings per owner via nftables meters (Linux); Windows needs WFP (honestly reported)",
+            false,
         ),
         d(
             "night_shift",
-            "Quiet hours",
+            "Night shift",
             "Control",
-            "Scheduled traffic windows — blocked on the automation engine (Phase 4)",
+            "Time-window enforcement with midnight wrap: check, then apply throttle/block",
+            false,
         ),
     ]
+}
+
+/// Planned modules. Empty as of this release: every named module in the
+/// catalog has a real implementation on at least one platform.
+pub fn planned_catalog() -> Vec<ToolDescriptor> {
+    vec![]
 }
 pub fn catalog_size() -> (usize, usize) {
     (catalog().len(), catalog().len() + planned_catalog().len())

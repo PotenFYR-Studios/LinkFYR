@@ -16,6 +16,8 @@
 //! the report lists exact commands; applied changes are tagged so
 //! remove() only ever deletes what this tool created.
 
+pub mod limits;
+
 use std::collections::BTreeMap;
 use std::time::Duration;
 
@@ -670,6 +672,9 @@ pub fn run(tool: &str, params: &BTreeMap<String, String>) -> ToolRunReport {
             shaping_apply(&p)
         }
         "shaping_remove" => shaping_remove(params),
+        "per_app_limits" => limits::per_app_limits(params),
+        "night_shift" => limits::night_shift(params),
+        "night_shift_apply" => limits::night_shift_apply(params),
         other => report(
             other,
             false,

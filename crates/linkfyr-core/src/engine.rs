@@ -389,6 +389,9 @@ impl AppEngine {
                     "shaping",
                     "shaping_remove",
                     "traffic_priority",
+                    "per_app_limits",
+                    "night_shift",
+                    "night_shift_apply",
                 ];
                 if ENFORCE_TOOLS.contains(&tool.as_str()) {
                     let r = blocking(move || linkfyr_enforce::run(&tool, &params)).await;
