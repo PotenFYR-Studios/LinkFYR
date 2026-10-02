@@ -21,8 +21,11 @@ pub const DEFAULT_BIND: &str = "127.0.0.1:58008";
 
 #[derive(Debug, Clone)]
 pub struct DaemonOptions {
-    /// Loopback bind address. Tests use ephemeral ports.
+    /// Loopback bind address for the binary transport. Tests use ephemeral ports.
     pub bind: String,
+    /// HTTP bind for the remote web dashboard (0.0.0.0:58009 for LAN,
+    /// empty = disabled). The phone opens this URL + token auth.
+    pub web_bind: String,
     /// Config directory (engine store + token file live here).
     pub config_dir: PathBuf,
 }
@@ -31,6 +34,7 @@ impl DaemonOptions {
     pub fn with_config_dir(dir: impl Into<PathBuf>) -> Self {
         Self {
             bind: DEFAULT_BIND.into(),
+            web_bind: String::new(),
             config_dir: dir.into(),
         }
     }
@@ -86,6 +90,7 @@ fn generate_token() -> String {
 pub struct Daemon {
     pub local_addr: std::net::SocketAddr,
     pub token_path: PathBuf,
+    pub web_addr: Option<std::net::SocketAddr>,
     pub join: tokio::task::JoinHandle<()>,
 }
 
@@ -103,6 +108,22 @@ pub async fn serve(opts: DaemonOptions) -> Result<Daemon, String> {
         .map_err(|e| format!("engine open: {e}"))?;
     engine.start();
 
+    // Optional remote web dashboard (Phase 8: phone → PC).
+    let mut web_addr = None;
+    if !opts.web_bind.is_empty() {
+        if let Ok(web_listener) = tokio::net::TcpListener::bind(&opts.web_bind).await {
+            if let Ok(addr) = web_listener.local_addr() {
+                web_addr = Some(addr);
+            }
+            let dist = opts.config_dir.join("web-dist");
+            let engine_for_web = Arc::clone(&engine);
+            let token_for_web = token.clone();
+            tokio::spawn(async move {
+                serve_web(web_listener, engine_for_web, token_for_web, dist).await;
+            });
+        }
+    }
+
     let join = tokio::spawn(async move {
         loop {
             let Ok((stream, _peer)) = listener.accept().await else {
@@ -119,8 +140,143 @@ pub async fn serve(opts: DaemonOptions) -> Result<Daemon, String> {
     Ok(Daemon {
         local_addr,
         token_path,
+        web_addr,
         join,
     })
+}
+
+/// Serve the built web frontend + a JSON API over HTTP for remote
+/// management (the phone opens this URL). Token auth via the
+/// Authorization header or ?token= query parameter.
+async fn serve_web(
+    listener: tokio::net::TcpListener,
+    engine: Arc<AppEngine>,
+    token: String,
+    dist_dir: PathBuf,
+) {
+    #[allow(unused_imports)]
+        use tokio::io::AsyncReadExt;
+    loop {
+        #[allow(unused_imports)]
+        use tokio::io::AsyncReadExt;
+        let Ok((mut stream, _)) = listener.accept().await else {
+            return;
+        };
+        let engine = Arc::clone(&engine);
+        let token = token.clone();
+        let dist = dist_dir.clone();
+        tokio::spawn(async move {
+            let mut buf = vec![0u8; 65536];
+            let Ok(n) = stream.read(&mut buf).await else {
+                return;
+            };
+            let req = String::from_utf8_lossy(&buf[..n]).to_string();
+            let first_line = req.lines().next().unwrap_or_default().to_string();
+            let auth_ok =
+                req.contains(&format!("Bearer {token}")) || req.contains(&format!("token={token}"));
+            let path = first_line
+                .split_whitespace()
+                .nth(1)
+                .unwrap_or("/")
+                .to_string();
+
+            if path.starts_with("/api/") {
+                if !auth_ok {
+                    let _ = write_http(
+                        &mut stream,
+                        401,
+                        "{\"error\":\"unauthorized\"}",
+                        "application/json",
+                    )
+                    .await;
+                    return;
+                }
+                let body_start = req.find("\r\n\r\n").map_or(n, |i| i + 4);
+                let body = &buf[body_start..n];
+                match serde_json::from_slice::<Envelope<Request>>(body) {
+                    Ok(env) => {
+                        let resp = engine.handle_request(env.payload).await;
+                        let _ = resp;
+                        let json = serde_json::to_string(&resp).unwrap_or_default();
+                        let _ = write_http(&mut stream, 200, &json, "application/json").await;
+                    }
+                    Err(e) => {
+                        let _ = write_http(
+                            &mut stream,
+                            400,
+                            &format!("{{\"error\":\"{e}\"}}"),
+                            "application/json",
+                        )
+                        .await;
+                    }
+                }
+            } else if path == "/health" {
+                let _ = write_http(&mut stream, 200, "{\"ok\":true}", "application/json").await;
+            } else {
+                // Serve static files from the dist directory.
+                let file_path = if path == "/" {
+                    "index.html"
+                } else {
+                    &path[1..]
+                };
+                let full = dist.join(file_path);
+                if let Ok(content) = tokio::fs::read(&full).await {
+                    let mime = if full.extension().and_then(|e| e.to_str()) == Some("html") {
+                        "text/html"
+                    } else if full.extension().and_then(|e| e.to_str()) == Some("js") {
+                        "application/javascript"
+                    } else if full.extension().and_then(|e| e.to_str()) == Some("css") {
+                        "text/css"
+                    } else {
+                        "application/octet-stream"
+                    };
+                    let _ = write_http_binary(&mut stream, 200, &content, mime).await;
+                } else {
+                    let _ = write_http(&mut stream, 404, "not found", "text/plain").await;
+                }
+            }
+        });
+    }
+}
+
+async fn write_http(
+    stream: &mut tokio::net::TcpStream,
+    status: u16,
+    body: &str,
+    content_type: &str,
+) -> Result<(), String> {
+    let reason = if status == 200 {
+        "OK"
+    } else if status == 401 {
+        "Unauthorized"
+    } else {
+        "Not Found"
+    };
+    let resp = format!(
+        "HTTP/1.1 {status} {reason}\r\nContent-Type: {content_type}\r\nContent-Length: {}\r\nAccess-Control-Allow-Origin: *\r\n\r\n{body}",
+        body.len()
+    );
+    stream
+        .write_all(resp.as_bytes())
+        .await
+        .map_err(|e| e.to_string())
+}
+
+async fn write_http_binary(
+    stream: &mut tokio::net::TcpStream,
+    status: u16,
+    body: &[u8],
+    content_type: &str,
+) -> Result<(), String> {
+    let header = format!(
+        "HTTP/1.1 {status} OK\r\nContent-Type: {content_type}\r\nContent-Length: {}\r\n\r\n",
+        body.len()
+    );
+    stream
+        .write_all(header.as_bytes())
+        .await
+        .map_err(|e| e.to_string())?;
+    stream.write_all(body).await.map_err(|e| e.to_string())
 }
 
 async fn handle_connection(mut stream: TcpStream, engine: Arc<AppEngine>, token: String) {
@@ -260,6 +416,7 @@ mod tests {
     async fn daemon_serves_engine_over_real_socket() {
         let opts = DaemonOptions {
             bind: "127.0.0.1:0".into(),
+            web_bind: String::new(),
             config_dir: temp_dir("serve"),
         };
         let daemon = serve(opts).await.expect("serve");
@@ -292,6 +449,7 @@ mod tests {
     async fn wrong_token_is_rejected() {
         let opts = DaemonOptions {
             bind: "127.0.0.1:0".into(),
+            web_bind: String::new(),
             config_dir: temp_dir("auth"),
         };
         let daemon = serve(opts).await.expect("serve");
@@ -306,6 +464,7 @@ mod tests {
     async fn bad_request_line_gets_validation_error() {
         let opts = DaemonOptions {
             bind: "127.0.0.1:0".into(),
+            web_bind: String::new(),
             config_dir: temp_dir("bad"),
         };
         let daemon = serve(opts).await.expect("serve");

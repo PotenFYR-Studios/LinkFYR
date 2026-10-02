@@ -7,8 +7,8 @@
 //! reordering buffer, and echoes path statistics back. Data forwarding
 //! (the actual proxy) lands with the session crypto layer.
 
-use std::net::SocketAddr;
 use linkfyr_protocol::{Frame, FrameType, Handshake, ReorderBuffer};
+use std::net::SocketAddr;
 
 pub const DEFAULT_LISTEN: &str = "0.0.0.0:7443";
 

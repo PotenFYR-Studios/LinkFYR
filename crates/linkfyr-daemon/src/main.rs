@@ -46,6 +46,7 @@ async fn main() {
 
     let opts = DaemonOptions {
         bind,
+        web_bind: std::env::var("LINKFYR_WEB").unwrap_or_default(),
         config_dir: config_dir(),
     };
     let token_path = opts.token_path();
