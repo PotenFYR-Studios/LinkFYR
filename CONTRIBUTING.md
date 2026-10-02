@@ -37,9 +37,9 @@ The complete gate runs in Docker so you never need a matching host toolchain:
 
 ```bash
 # Windows
-powershell -File scripts/test-docker.ps1
+powershell -File scripts/test/test-docker.ps1
 # Linux / macOS
-./scripts/test-docker.sh
+./scripts/test/test-docker.sh
 ```
 
 That runs `cargo fmt --check`, clippy with warnings denied, the Windows

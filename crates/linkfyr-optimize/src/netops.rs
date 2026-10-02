@@ -9,7 +9,7 @@ use std::collections::BTreeMap;
 use std::path::PathBuf;
 use std::time::Duration;
 
-use linkfyr_model::optimize::{BridgeMode, TextReport, ToolRunReport};
+use linkfyr_model::optimize::{TextReport, ToolRunReport};
 
 use crate::exec;
 use crate::{routeaudit, sysnet, wifiscan};
@@ -519,16 +519,6 @@ pub fn pmtud_watch(params: &BTreeMap<String, String>) -> ToolRunReport {
 
 pub fn mtu_monitor(params: &BTreeMap<String, String>) -> ToolRunReport {
     pmtud_watch(params)
-}
-
-/// Reuse bridge helpers so the hotspot card can suggest a bridge mode.
-#[allow(dead_code)]
-pub fn suggested_share_mode() -> BridgeMode {
-    if exec::on_path("powershell") || cfg!(windows) {
-        BridgeMode::NatShare
-    } else {
-        BridgeMode::L2Switch
-    }
 }
 
 #[cfg(test)]

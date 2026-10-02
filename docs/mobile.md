@@ -60,7 +60,7 @@ pnpm tauri ios build       # Archive for TestFlight/App Store
 Verification in Docker (the same gate CI runs):
 
 ```bash
-powershell -File scripts/test-docker.ps1   # includes mobile typecheck + build
+powershell -File scripts/test/test-docker.ps1   # includes mobile typecheck + build
 ```
 
 ## 3. First run on the phone

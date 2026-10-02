@@ -11,7 +11,6 @@ import "./styles.css";
  * vite.config.ts.
  */
 
-const CANON = "https://linkfyr.docs.potenfyr.in";
 const GH = "https://github.com/PotenFYR-Studios/LinkFYR";
 
 function currentPath(): string {
@@ -163,4 +162,3 @@ if (rootEl) {
   createRoot(rootEl).render(<App />);
 }
 
-export { CANON };

@@ -8,4 +8,4 @@ COPY . .
 
 RUN pnpm install --frozen-lockfile
 
-CMD ["bash", "scripts/docker/frontend-gate.sh"]
+CMD ["bash", "docker/scripts/frontend-gate.sh"]

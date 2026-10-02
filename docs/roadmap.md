@@ -43,15 +43,13 @@ granularity. **Research:** eBPF flow tagging on Linux for lower overhead.
 ## Phase 2.6 — Tool registry, bridges, daemon (shipped)
 
 **Shipped:** the tool **registry** — the single catalog powering
-capabilities, CLI and UI; 30 modules implemented for real today
+capabilities, CLI and UI; 108 modules implemented for real today
 (DNS family incl. DoH + record lookups + resolver agreement, route
 scan, latency monitor/jitter burst/ICMP ping/gateway, IPv6 readiness,
 bufferbloat, speed test, TTFB/TLS, port scan, per-app connections,
 listening ports, MTU, Wi-Fi, TCP audit, route audit, ARP, proxy,
 hosts, flush, public IP opt-in, DNS apply) with the generic
-`optimize run <id> key=value` envelope; 72 more modules named and
-designed (total catalog 102) — no placeholders, each preserved slot has
-its real mechanism chosen. **Network bridge manager**: tiered —
+`optimize run <id> key=value` envelope; the catalog is fully implemented (108 modules); no placeholders and no planned backlog remain. **Network bridge manager**: tiered —
 Hyper-V `New-VMSwitch` + embedded teaming (closest to the removed
 Windows bridge), `New-NetNat` forwarding fallback (always labeled as
 NAT, never as L2), Linux `ip link` bridges, macOS `ifconfig` bridges;

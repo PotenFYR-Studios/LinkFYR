@@ -3,19 +3,19 @@ name: linkfyr-tests
 services:
   rust:
     build:
-      context: .
+      context: ..
       dockerfile: docker/test.Dockerfile
     volumes:
       - cargo-registry:/usr/local/cargo/registry
       - cargo-git:/usr/local/cargo/git
       - target-cache:/app/target
-    command: ["bash", "scripts/docker/rust-gate.sh"]
+    command: ["bash", "docker/scripts/rust-gate.sh"]
 
   frontend:
     build:
-      context: .
+      context: ..
       dockerfile: docker/frontend.Dockerfile
-    command: ["bash", "scripts/docker/frontend-gate.sh"]
+    command: ["bash", "docker/scripts/frontend-gate.sh"]
 
 volumes:
   cargo-registry:

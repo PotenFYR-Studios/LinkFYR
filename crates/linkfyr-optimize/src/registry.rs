@@ -788,13 +788,8 @@ pub fn catalog() -> Vec<ToolDescriptor> {
     ]
 }
 
-/// Planned modules. Empty as of this release: every named module in the
-/// catalog has a real implementation on at least one platform.
-pub fn planned_catalog() -> Vec<ToolDescriptor> {
-    vec![]
-}
-pub fn catalog_size() -> (usize, usize) {
-    (catalog().len(), catalog().len() + planned_catalog().len())
+pub fn catalog_size() -> usize {
+    catalog().len()
 }
 
 fn report(
@@ -1457,18 +1452,13 @@ mod tests {
 
     #[test]
     fn catalog_is_large_and_well_formed() {
-        let (implemented, total) = catalog_size();
-        assert!(
-            implemented >= 25,
-            "implemented modules this session: {implemented}"
-        );
-        assert!(total >= 100, "named modules must exceed 100: {total}");
+        let implemented = catalog_size();
+        assert!(implemented >= 100, "implemented modules: {implemented}");
         let mut ids: Vec<String> = catalog().into_iter().map(|t| t.id).collect();
-        ids.extend(planned_catalog().into_iter().map(|t| t.id));
-        let mut sorted = ids.clone();
-        sorted.sort();
-        sorted.dedup();
-        assert_eq!(sorted.len(), ids.len(), "tool ids must be unique");
+        let total = ids.len();
+        ids.sort();
+        ids.dedup();
+        assert_eq!(ids.len(), total, "tool ids must be unique");
         for t in catalog() {
             assert!(!t.name.is_empty() && !t.blurb.is_empty());
         }

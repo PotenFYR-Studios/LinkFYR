@@ -16,7 +16,7 @@
 
 ## How was this tested?
 
-- [ ] Full gate passes in Docker: `powershell -File scripts/test-docker.ps1` (Windows) or `./scripts/test-docker.sh` (Linux/macOS)
+- [ ] Full gate passes in Docker: `powershell -File scripts/test/test-docker.ps1` (Windows) or `./scripts/test/test-docker.sh` (Linux/macOS)
 - [ ] Manually exercised the affected tool/UI (which command or screen?)
 
 <!-- Describe what you exercised: tool ids run, real output observed, platform used. -->

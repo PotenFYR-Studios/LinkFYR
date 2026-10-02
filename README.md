@@ -34,7 +34,7 @@ Every network tool does one slice: a speed test here, a Wi-Fi scanner there, a l
 - **Honest by design** - every tool reports its real capability state (available / needs elevation / unavailable / platform-limited), failed probes stay visible, and any capability the OS does not offer is documented rather than faked. Local-only by default: no account, no cloud, no telemetry upload path.
 - **Free and open** - every feature ships to everyone. No tiers, no entitlement gates, no locked controls.
 
-> The architecture lives in [`docs/architecture.md`](docs/architecture.md); every feature ever specified is preserved and classified in [`docs/roadmap.md`](docs/roadmap.md). The registry currently names **107 modules: 105 implemented today**, the remaining 2 each name the enforcement-layer work they are waiting on.
+> The architecture lives in [`docs/architecture.md`](docs/architecture.md); every feature ever specified is preserved and classified in [`docs/roadmap.md`](docs/roadmap.md). The registry contains **108 implemented modules**; every entry runs for real on at least one platform, and unshipped ideas stay preserved by name in the roadmap instead of being faked.
 
 ## Quick start (development)
 
@@ -101,9 +101,9 @@ pnpm typecheck && pnpm lint && pnpm test && pnpm build   # 40 UI tests
 
 ```bash
 # Windows
-powershell -File scripts/test-docker.ps1
+powershell -File scripts/test/test-docker.ps1
 # Linux / macOS
-./scripts/test-docker.sh
+./scripts/test/test-docker.sh
 ```
 
 Builds `docker/test.Dockerfile` (Rust stable + Tauri system deps + the
@@ -137,7 +137,9 @@ apps/mobile           Tauri 2 mobile companion (remote client for linkfyrd)
 deploy/               systemd unit, launchd plist for linkfyrd
 packages/types        TypeScript mirror of the wire contract
 deploy/               systemd unit, launchd plist for linkfyrd
-docs/                 architecture, roadmap, threat model, capability matrix, ADRs
+docker/               Dockerfiles, compose file, verification gate scripts
+docs/                 markdown sources + Vite/React docs site
+scripts/              install/, test/, dev/ helpers
 ```
 
 Architecture rule (ADR-0001): all capability lives in Rust behind `linkfyr-ipc`; the GUI, CLI, daemon and future remote/mobile clients are interchangeable frontends over the same versioned API.

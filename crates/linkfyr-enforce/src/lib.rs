@@ -232,19 +232,6 @@ pub fn linux_remove_user_rule(name: &str) -> Vec<(String, Vec<String>)> {
     cmds
 }
 
-pub fn windows_remove_rule(name: &str) -> Vec<(String, Vec<String>)> {
-    vec![(
-        "netsh".into(),
-        vec![
-            "advfirewall".into(),
-            "firewall".into(),
-            "delete".into(),
-            "rule".into(),
-            format!("name=\"{name}\""),
-        ],
-    )]
-}
-
 /// Remove every rule this tool created (scoped by the owner tag).
 pub fn app_rules_remove() -> ToolRunReport {
     let tool = "app_rule_remove";

@@ -9,7 +9,6 @@ use linkfyr_core::{AppEngine, MonitorMode};
 use linkfyr_model::Snapshot;
 use linkfyr_optimize::registry::{
     catalog as registry_catalog, catalog_size as registry_catalog_size,
-    planned_catalog as registry_planned,
 };
 
 #[derive(Parser)]
@@ -353,14 +352,10 @@ async fn optimize(engine: std::sync::Arc<AppEngine>, cmd: OptimizeCmd, json: boo
     use linkfyr_ipc::Request;
 
     if matches!(cmd, OptimizeCmd::List) {
-        let (implemented, total) = registry_catalog_size();
-        println!("Registry: {implemented} implemented, {total} named modules total");
+        let implemented = registry_catalog_size();
+        println!("Registry: {implemented} implemented modules");
         println!("\nIMPLEMENTED (run with `optimize run <id> key=value …`):");
         for t in registry_catalog() {
-            println!("  {:<22} {:<12} {}", t.id, t.group, t.blurb);
-        }
-        println!("\nPLANNED (designed, preserved slots):");
-        for t in registry_planned() {
             println!("  {:<22} {:<12} {}", t.id, t.group, t.blurb);
         }
         return 0;

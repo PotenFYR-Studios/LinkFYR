@@ -10,11 +10,8 @@ version.workspace = true
 [dependencies]
 linkfyr-core = { workspace = true }
 linkfyr-ipc = { workspace = true }
-linkfyr-model = { workspace = true }
 tokio = { workspace = true }
-serde = { workspace = true }
 serde_json = { workspace = true }
-tracing = { workspace = true }
 tracing-subscriber = { workspace = true }
 directories = { workspace = true }
 

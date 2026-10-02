@@ -154,11 +154,7 @@ async fn serve_web(
     token: String,
     dist_dir: PathBuf,
 ) {
-    #[allow(unused_imports)]
-    use tokio::io::AsyncReadExt;
     loop {
-        #[allow(unused_imports)]
-        use tokio::io::AsyncReadExt;
         let Ok((mut stream, _)) = listener.accept().await else {
             return;
         };
@@ -167,7 +163,7 @@ async fn serve_web(
         let dist = dist_dir.clone();
         tokio::spawn(async move {
             let mut buf = vec![0u8; 65536];
-            let Ok(n) = stream.read(&mut buf).await else {
+            let Ok(n) = tokio::io::AsyncReadExt::read(&mut stream, &mut buf).await else {
                 return;
             };
             let req = String::from_utf8_lossy(&buf[..n]).to_string();

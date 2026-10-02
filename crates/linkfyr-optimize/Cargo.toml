@@ -9,9 +9,7 @@ version.workspace = true
 
 [dependencies]
 linkfyr-model = { workspace = true }
-serde = { workspace = true }
 serde_json = { workspace = true }
-thiserror = { workspace = true }
 directories = { workspace = true }
 ureq = { version = "2", default-features = false, features = ["tls"] }
 socket2 = { workspace = true }

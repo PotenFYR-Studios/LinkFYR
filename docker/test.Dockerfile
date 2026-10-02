@@ -30,4 +30,4 @@ RUN rustup target add x86_64-pc-windows-gnu
 WORKDIR /app
 COPY . .
 
-CMD ["bash", "scripts/docker/rust-gate.sh"]
+CMD ["bash", "docker/scripts/rust-gate.sh"]

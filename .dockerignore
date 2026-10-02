@@ -1,7 +1,7 @@
 target/
 node_modules/
 .git/
- dist/
+dist/
 *.log
 .vscode/
 .idea/
