@@ -34,6 +34,8 @@ linkfyr-bridge = { path = "crates/linkfyr-bridge" }
 linkfyr-enforce = { path = "crates/linkfyr-enforce" }
 linkfyr-core = { path = "crates/linkfyr-core" }
 linkfyr-daemon = { path = "crates/linkfyr-daemon" }
+linkfyr-protocol = { path = "crates/linkfyr-protocol" }
+linkfyr-edge = { path = "crates/linkfyr-edge" }
 linkfyr-ipc = { path = "crates/linkfyr-ipc" }
 
 serde = { version = "1", features = ["derive"] }

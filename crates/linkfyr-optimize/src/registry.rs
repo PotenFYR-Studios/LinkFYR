@@ -778,6 +778,13 @@ pub fn catalog() -> Vec<ToolDescriptor> {
             "Time-window enforcement with midnight wrap: check, then apply throttle/block",
             false,
         ),
+        d(
+            "multiwan_plan",
+            "Multi-WAN plan",
+            "Control",
+            "Rank interfaces by health + activity; ordered failover plan",
+            false,
+        ),
     ]
 }
 

@@ -1,12 +1,16 @@
 [package]
 name = "linkfyr-edge"
-description = "LinkFYR Edge node (Phase 6): terminates Fusion tunnels, reorders, forwards. Reserved skeleton â€” see docs/edge.md"
-version.workspace = true
+description = "LinkFYR Edge node: terminates Fusion tunnels, reorders, forwards (self-hostable)"
 edition.workspace = true
+rust-version.workspace = true
 license-file.workspace = true
 repository.workspace = true
+version.workspace = true
 
 [dependencies]
+linkfyr-protocol = { workspace = true }
+serde.workspace = true
+serde_json.workspace = true
 
 [lints]
 workspace = true

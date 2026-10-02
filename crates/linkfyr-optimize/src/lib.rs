@@ -24,6 +24,7 @@ pub mod dnskit;
 pub mod exec;
 pub mod flows;
 pub mod mtu;
+pub mod multiwan;
 pub mod netops;
 pub mod probes;
 pub mod registry;

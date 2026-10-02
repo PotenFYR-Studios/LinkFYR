@@ -2221,6 +2221,11 @@ dependencies = [
 [[package]]
 name = "linkfyr-edge"
 version = "0.1.0"
+dependencies = [
+ "linkfyr-protocol",
+ "serde",
+ "serde_json",
+]
 
 [[package]]
 name = "linkfyr-enforce"
@@ -2228,6 +2233,7 @@ version = "0.1.0"
 dependencies = [
  "linkfyr-model",
  "linkfyr-optimize",
+ "serde_json",
 ]
 
 [[package]]
@@ -2235,6 +2241,7 @@ name = "linkfyr-ipc"
 version = "0.1.0"
 dependencies = [
  "linkfyr-model",
+ "linkfyr-rules",
  "serde",
  "serde_json",
  "thiserror 2.0.21",
@@ -2280,6 +2287,10 @@ dependencies = [
 [[package]]
 name = "linkfyr-protocol"
 version = "0.1.0"
+dependencies = [
+ "serde",
+ "serde_json",
+]
 
 [[package]]
 name = "linkfyr-rules"

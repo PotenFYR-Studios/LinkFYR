@@ -1,12 +1,15 @@
 [package]
 name = "linkfyr-protocol"
-description = "LinkFYR Fusion tunnel protocol (Phase 6): framing, path scheduler, redundancy. Reserved skeleton â€” see docs/protocol.md"
-version.workspace = true
+description = "Fusion multipath bonding protocol: framing, reordering, path scheduling"
 edition.workspace = true
+rust-version.workspace = true
 license-file.workspace = true
 repository.workspace = true
+version.workspace = true
 
 [dependencies]
+serde.workspace = true
+serde_json.workspace = true
 
 [lints]
 workspace = true
