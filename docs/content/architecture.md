@@ -47,7 +47,7 @@ Trust rules:
 - `linkfyrd` exposes a deliberately small IPC surface; every message is
   schema-checked; unauthenticated or unversioned frames are dropped.
 - Security-sensitive features define explicit **fail-open / fail-closed**
-  policy (see docs/security.md) that the user can see and change.
+  policy (see docs/content/security.md) that the user can see and change.
 
 ## 3. Crate map (Cargo workspace)
 
@@ -119,7 +119,7 @@ Store (SQLite, bucketed)                         CLI / linkfyrd status
 - Counters are delta-based; poll-period jitter is handled by timestamp
   differencing, never by assuming a fixed period.
 - Ring buffers feed 1 s-resolution charts; the store downsamples
-  (1 s → 1 min → 1 h) with configurable retention (docs/roadmap.md §storage).
+  (1 s → 1 min → 1 h) with configurable retention (docs/content/roadmap.md §storage).
 - The scheduler (Phase 5/6) consumes the same snapshot stream — UI and
   engine share one truth.
 
@@ -134,7 +134,7 @@ Store (SQLite, bucketed)                         CLI / linkfyrd status
 - Redundancy modes: off / critical-only / adaptive / full.
 - Selection between multipath-QUIC, MPTCP, and custom UDP transport is a
   **benchmark decision**, deferred to Phase 6 with recorded ADR. Protocol
-  sketch: docs/protocol.md.
+  sketch: docs/content/protocol.md.
 
 ## 7. Storage
 

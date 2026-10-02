@@ -10,11 +10,11 @@ reserved, data model compatible).
 
 ## Phase 0 — Research & Architecture ✅ (this repo start)
 
-- Competitor matrix (docs/competitors.md) — living doc
-- User-demand research w/ evidence strength (docs/user-demand-research.md)
-- Capability matrix (docs/platform-support.md)
-- ADRs: 0001 shell (docs/adr/) — more follow each major decision
-- Threat model + security policy (docs/threat-model.md, docs/security.md)
+- Competitor matrix (docs/content/competitors.md) — living doc
+- User-demand research w/ evidence strength (docs/content/user-demand-research.md)
+- Capability matrix (docs/content/platform-support.md)
+- ADRs: 0001 shell (docs/content/adr/) — more follow each major decision
+- Threat model + security policy (docs/content/threat-model.md, docs/content/security.md)
 
 ## Phase 1 — Foundation ✅ shipping now
 
@@ -122,7 +122,7 @@ Streaming/Conferencing/CostSaver/BatterySaver/LocalMultiWAN/Custom).
 
 ## Phase 6 — Fusion (bonding) + Edge
 
-**Now(→Later as infra lands):** Fusion tunnel protocol (docs/protocol.md) ·
+**Now(→Later as infra lands):** Fusion tunnel protocol (docs/content/protocol.md) ·
 adaptive per-path scheduler · reordering/dedup · reconnect w/ seamless
 failover · redundancy modes (off/critical/adaptive/full) · self-hosted
 Edge (docker run linkfyr/edge) · hosted Edge (region rollout follows real
@@ -149,7 +149,7 @@ mobile companion in `apps/mobile` (Android/iOS) is a remote client for
 `linkfyrd`: the same UI source as desktop, the same IPC envelopes over
 HTTP with token auth, and a setup gate on first run. The daemon also
 serves the built dashboard at `LINKFYR_WEB` for plain browser access.
-Build/run guide: `docs/mobile.md`.
+Build/run guide: `docs/content/mobile.md`.
 
 **Next:** selective encrypted config sync (secrets never plaintext) ·
 multi-device support (shared profiles/rules via encrypted sync) · fleet
@@ -168,7 +168,7 @@ evaluation. **Research:** MIPS memory ceilings, flash footprint.
 
 - Explainability: every automatic action explains why + one-click undo.
 - Accessibility: keyboard-first, screen reader, reduced motion, WCAG AA.
-- Performance budgets (docs/architecture.md §9) enforced in CI benchmarks.
+- Performance budgets (docs/content/architecture.md §9) enforced in CI benchmarks.
 - Beginner/Expert progressive disclosure everywhere; expert mode hides
   nothing, beginner mode drowns no one.
 - Security: threat-model review per phase; fuzzing for parsers; SBOM in

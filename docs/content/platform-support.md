@@ -67,4 +67,4 @@ Rule: **never fake parity.** The UI renders this matrix at runtime
 ## Tier policy
 
 P0 blocks releases. P1 should follow within one release cycle. P2/P3 are
-roadmap-locked (docs/roadmap.md) with architecture reserved now.
+roadmap-locked (docs/content/roadmap.md) with architecture reserved now.

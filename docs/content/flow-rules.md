@@ -59,4 +59,4 @@ is sugar, rules remain the source of truth (inspectable, exportable).
 
 Golden-case unit tests per predicate/action; property tests (rule set is
 total function over context); simulation suite replays scripted network
-scenarios (docs/architecture.md §8) asserting expected decisions.
+scenarios (docs/content/architecture.md §8) asserting expected decisions.

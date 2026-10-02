@@ -7,7 +7,7 @@ import remarkGfm from "remark-gfm";
  * Tailwind), so there is no content duplication to drift.
  */
 
-const FILES = import.meta.glob(["../*.md", "../adr/*.md"], {
+const FILES = import.meta.glob(["../content/*.md", "../content/adr/*.md"], {
   query: "?raw",
   import: "default",
   eager: true,
@@ -15,7 +15,7 @@ const FILES = import.meta.glob(["../*.md", "../adr/*.md"], {
 
 function mdFor(slug: string): string | null {
   for (const [key, value] of Object.entries(FILES)) {
-    const s = key.replace(/^\.\.\//, "").replace(/\.md$/, "");
+    const s = key.replace(/^\.\.\/content\//, "").replace(/\.md$/, "");
     if (s === slug) return value;
   }
   return null;

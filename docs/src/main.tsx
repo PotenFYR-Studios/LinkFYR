@@ -33,7 +33,7 @@ function Header() {
         <nav className="site-nav" aria-label="Primary">
           <a href="/docs/">Documentation</a>
           <a href={`${GH}/releases`}>Releases</a>
-          <a href={`${GH}/blob/main/docs/roadmap.md`}>Roadmap</a>
+          <a href={`${GH}/blob/main/docs/content/roadmap.md`}>Roadmap</a>
           <a href={GH} className="nav-strong">
             GitHub
           </a>

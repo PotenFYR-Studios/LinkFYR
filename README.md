@@ -17,7 +17,7 @@
 
 **LinkFYR**: the operating system for your Internet connections. One control layer for what your apps do on the network: which interface carries them, how much bandwidth they get, which VPN or DNS they use, how traffic behaves when quality changes - and a full, explainable history of why.
 
-[Releases](https://github.com/PotenFYR-Studios/LinkFYR/releases) � [Documentation](docs/) � [Roadmap](docs/roadmap.md) � [Daemon install](docs/daemon.md) � [Contributing](CONTRIBUTING.md) � [Security](SECURITY.md)
+[Releases](https://github.com/PotenFYR-Studios/LinkFYR/releases) � [Documentation](docs/) � [Roadmap](docs/content/roadmap.md) � [Daemon install](docs/content/daemon.md) � [Contributing](CONTRIBUTING.md) � [Security](SECURITY.md)
 
 </div>
 
@@ -34,7 +34,7 @@ Every network tool does one slice: a speed test here, a Wi-Fi scanner there, a l
 - **Honest by design** - every tool reports its real capability state (available / needs elevation / unavailable / platform-limited), failed probes stay visible, and any capability the OS does not offer is documented rather than faked. Local-only by default: no account, no cloud, no telemetry upload path.
 - **Free and open** - every feature ships to everyone. No tiers, no entitlement gates, no locked controls.
 
-> The architecture lives in [`docs/architecture.md`](docs/architecture.md); every feature ever specified is preserved and classified in [`docs/roadmap.md`](docs/roadmap.md). The registry contains **108 implemented modules**; every entry runs for real on at least one platform, and unshipped ideas stay preserved by name in the roadmap instead of being faked.
+> The architecture lives in [`docs/content/architecture.md`](docs/content/architecture.md); every feature ever specified is preserved and classified in [`docs/content/roadmap.md`](docs/content/roadmap.md). The registry contains **108 implemented modules**; every entry runs for real on at least one platform, and unshipped ideas stay preserved by name in the roadmap instead of being faked.
 
 ## Quick start (development)
 
@@ -114,7 +114,7 @@ probes, real UDP DNS exchanges, a real rustls handshake.
 
 ## Platforms
 
-Windows, macOS and Linux; x64, ARM64 and universal builds per release. Per-OS capability is documented honestly in [`docs/platform-support.md`](docs/platform-support.md) - where an OS does not offer an API, LinkFYR says so and picks the nearest supported alternative.
+Windows, macOS and Linux; x64, ARM64 and universal builds per release. Per-OS capability is documented honestly in [`docs/content/platform-support.md`](docs/content/platform-support.md) - where an OS does not offer an API, LinkFYR says so and picks the nearest supported alternative.
 
 ## Repository layout
 
@@ -148,21 +148,21 @@ Architecture rule (ADR-0001): all capability lives in Rust behind `linkfyr-ipc`;
 
 | Doc | Contents |
 |---|---|
-| [`docs/architecture.md`](docs/architecture.md) | process topology, crate map, data flow, budgets |
-| [`docs/platform-support.md`](docs/platform-support.md) | per-OS capability matrix (never fakes parity) |
-| [`docs/roadmap.md`](docs/roadmap.md) | every spec feature, classified Now/Next/Later, nothing dropped |
-| [`docs/daemon.md`](docs/daemon.md) | installing linkfyrd (Windows service, systemd, launchd) |
-| [`docs/mobile.md`](docs/mobile.md) | building the Tauri 2 mobile companion (Android/iOS) |
-| [`docs/threat-model.md`](docs/threat-model.md) | STRIDE model + fail-open/fail-closed policy table |
-| [`docs/security.md`](docs/security.md) | IPC hardening, supply chain, signing, secrets |
-| [`docs/competitors.md`](docs/competitors.md) | living competitor matrix with evidence grades |
-| [`docs/user-demand-research.md`](docs/user-demand-research.md) | community demand to requirements, evidence-graded |
-| [`docs/protocol.md`](docs/protocol.md) | Fusion bonding protocol design (pre-benchmark) |
-| [`docs/ux.md`](docs/ux.md) | design system, motion dials, accessibility standard |
+| [`docs/content/architecture.md`](docs/content/architecture.md) | process topology, crate map, data flow, budgets |
+| [`docs/content/platform-support.md`](docs/content/platform-support.md) | per-OS capability matrix (never fakes parity) |
+| [`docs/content/roadmap.md`](docs/content/roadmap.md) | every spec feature, classified Now/Next/Later, nothing dropped |
+| [`docs/content/daemon.md`](docs/content/daemon.md) | installing linkfyrd (Windows service, systemd, launchd) |
+| [`docs/content/mobile.md`](docs/content/mobile.md) | building the Tauri 2 mobile companion (Android/iOS) |
+| [`docs/content/threat-model.md`](docs/content/threat-model.md) | STRIDE model + fail-open/fail-closed policy table |
+| [`docs/content/security.md`](docs/content/security.md) | IPC hardening, supply chain, signing, secrets |
+| [`docs/content/competitors.md`](docs/content/competitors.md) | living competitor matrix with evidence grades |
+| [`docs/content/user-demand-research.md`](docs/content/user-demand-research.md) | community demand to requirements, evidence-graded |
+| [`docs/content/protocol.md`](docs/content/protocol.md) | Fusion bonding protocol design (pre-benchmark) |
+| [`docs/content/ux.md`](docs/content/ux.md) | design system, motion dials, accessibility standard |
 
 ## Privacy
 
-Local-only by default. Measurements never leave the device unless you explicitly run an opt-in external tool (public IP, geolocation, RDAP); there is no account, no cloud dependency and no telemetry upload path. See [`docs/security.md`](docs/security.md).
+Local-only by default. Measurements never leave the device unless you explicitly run an opt-in external tool (public IP, geolocation, RDAP); there is no account, no cloud dependency and no telemetry upload path. See [`docs/content/security.md`](docs/content/security.md).
 
 ## Contributing
 

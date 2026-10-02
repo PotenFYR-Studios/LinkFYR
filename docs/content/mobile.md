@@ -79,7 +79,7 @@ powershell -File scripts/test/test-docker.ps1   # includes mobile typecheck + bu
 - No cloud relay, no account, no telemetry. If you want access from
   outside your LAN, put the daemon behind your own VPN or reverse
   proxy; hosted relays are intentionally not part of v0.
-- Threat model coverage: T1/T15 in `docs/threat-model.md`.
+- Threat model coverage: T1/T15 in `docs/content/threat-model.md`.
 
 ## Honest limits
 
@@ -88,4 +88,4 @@ powershell -File scripts/test/test-docker.ps1   # includes mobile typecheck + bu
   capability states from the registry are shown as they really are.
 - iOS background execution is restricted by the OS; the app works
   while foregrounded, which is the documented platform limit in
-  `docs/platform-support.md`.
+  `docs/content/platform-support.md`.
