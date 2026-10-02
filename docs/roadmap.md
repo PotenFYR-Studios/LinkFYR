@@ -169,7 +169,9 @@ evaluation. **Research:** MIPS memory ceilings, flash footprint.
   nothing, beginner mode drowns no one.
 - Security: threat-model review per phase; fuzzing for parsers; SBOM in
   every release; dependency audit gate.
-- **No monetization.** LinkFYR is fully free. Every feature ships to
+- **No monetization.** LinkFYR is fully free (Apache-2.0 with the
+  Commons Clause condition: use and build on it freely, do not sell the
+  software itself as a paid product). Every feature ships to
   everyone: self-hosted Edge, hosted-bonding client support, CLI/API,
   unlimited history. No tiers, no entitlement gates, no locked controls.
   If hosted Edge infrastructure is ever operated, it must be fundable
