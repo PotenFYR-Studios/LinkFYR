@@ -1,4 +1,4 @@
-ï»¿<div align="center">
+<div align="center">
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:6b97ff,50:9b8cff,100:3ddc97&height=220&section=header&text=LinkFYR&fontSize=52&fontColor=ffffff&fontAlignY=34&desc=Monitor%20%C2%B7%20Optimize%20%C2%B7%20Bridge%20%C2%B7%20Control%20%E2%80%94%20every%20connection%2C%20one%20command%20center&descSize=18&descAlignY=55&animation=twinkling" width="100%" alt="LinkFYR banner"/>
 
@@ -9,14 +9,14 @@
 
 [![CI](https://img.shields.io/github/actions/workflow/status/PotenFYR-Studios/LinkFYR/validate.yml?branch=main&style=flat-square&logo=githubactions&label=CI&color=2ea043&labelColor=1c1e26)](https://github.com/PotenFYR-Studios/LinkFYR/actions/workflows/validate.yml)
 [![Platforms](https://img.shields.io/badge/platforms-Windows%20%C2%B7%20macOS%20%C2%B7%20Linux%20%C2%B7%20x64%2Farm64%2Funiversal-9b8cff?style=flat-square&labelColor=1c1e26)](#platforms)
-[![Tools](https://img.shields.io/badge/registry-95%20live%20tools%20%2F%20101%20named-6b97ff?style=flat-square&labelColor=1c1e26)](#optimization-toolkit)
+[![Tools](https://img.shields.io/badge/registry-105%20live%20tools%20%2F%20107%20named-6b97ff?style=flat-square&labelColor=1c1e26)](#optimization-toolkit)
 [![license](https://img.shields.io/badge/license-Apache--2.0%20%2B%20Commons%20Clause-6b97ff.svg?style=flat-square&labelColor=1c1e26)](LICENSE)
 
 [![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=20&pause=1200&color=6B97FF&center=true&vCenter=true&width=800&lines=95+real+network+tools+in+one+registry;Reduce+ping%2C+jitter+and+bufferbloat+with+measurements;Tiered+bridging+where+Windows+removed+it;Background+service+%2B+tray%2C+exam-safe;Free+and+open%2C+local-only+by+default)](https://github.com/PotenFYR-Studios/LinkFYR)
 
 **LinkFYR**: the operating system for your Internet connections. One control layer for what your apps do on the network: which interface carries them, how much bandwidth they get, which VPN or DNS they use, how traffic behaves when quality changes - and a full, explainable history of why.
 
-[Releases](https://github.com/PotenFYR-Studios/LinkFYR/releases) Â· [Documentation](docs/) Â· [Roadmap](docs/roadmap.md) Â· [Daemon install](docs/daemon.md) Â· [Contributing](CONTRIBUTING.md) Â· [Security](SECURITY.md)
+[Releases](https://github.com/PotenFYR-Studios/LinkFYR/releases) · [Documentation](docs/) · [Roadmap](docs/roadmap.md) · [Daemon install](docs/daemon.md) · [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md)
 
 </div>
 
@@ -26,14 +26,14 @@
 
 Every network tool does one slice: a speed test here, a Wi-Fi scanner there, a latency monitor somewhere else - and the enterprise ones paywall the useful half. LinkFYR is one free, open control layer that measures, explains, and (where the OS allows) fixes your connectivity:
 
-- **95 live tools, one registry** - DNS benchmarking and DoH fallback, route scanning with IPv6-penalty detection, bufferbloat grading (A+ to F), MTU black-hole discovery, per-app connection tables, UPnP mapping audits, TLS certificate expiry, DNSSEC posture, DNS-leak interception tests, Wake-on-LAN, NTP clock skew, captive-portal detection, VoIP MOS estimation and much more. Every measurement is real; nothing is simulated or estimated.
+- **105 live tools, one registry** - DNS benchmarking and DoH fallback, route scanning with IPv6-penalty detection, bufferbloat grading (A+ to F), MTU black-hole discovery, per-app connection tables, UPnP mapping audits, TLS certificate expiry, DNSSEC posture, DNS-leak interception tests, Wake-on-LAN, NTP clock skew, captive-portal detection, VoIP MOS estimation and much more. Every measurement is real; nothing is simulated or estimated.
 - **Tiered network bridging** - Windows removed its bridge UI; LinkFYR drives the supported alternatives (Hyper-V virtual switch with teaming, then a clearly-labeled NetNat fallback) and true L2 bridges on Linux and macOS. Unelevated runs list the exact commands instead of pretending.
 - **Exam-safe background service** - `linkfyrd` keeps monitoring, optimization jobs and bridges alive with the app closed (Windows service, systemd, launchd), behind an authenticated loopback transport.
 - **Desktop + CLI parity** - a polished Tauri 2 app (live dashboard, registry-driven Optimize view, bridges, alerts, tray with close-to-tray preference) and a first-class `linkfyr` CLI speaking the same versioned IPC. Same engine, same answers, zero drift.
 - **Honest by design** - every tool reports its real capability state (available / needs elevation / unavailable / platform-limited), failed probes stay visible, and any capability the OS does not offer is documented rather than faked. Local-only by default: no account, no cloud, no telemetry upload path.
 - **Free and open** - every feature ships to everyone. No tiers, no entitlement gates, no locked controls.
 
-> The architecture lives in [`docs/architecture.md`](docs/architecture.md); every feature ever specified is preserved and classified in [`docs/roadmap.md`](docs/roadmap.md). The registry currently names **101 modules: 95 implemented today**, the remaining 6 each name the enforcement-layer work they are waiting on.
+> The architecture lives in [`docs/architecture.md`](docs/architecture.md); every feature ever specified is preserved and classified in [`docs/roadmap.md`](docs/roadmap.md). The registry currently names **107 modules: 105 implemented today**, the remaining 2 each name the enforcement-layer work they are waiting on.
 
 ## Quick start (development)
 

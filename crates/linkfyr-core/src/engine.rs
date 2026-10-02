@@ -372,6 +372,28 @@ impl AppEngine {
                 Response::Repaired(Box::new(r))
             }
             Request::OptimizeRun { tool, params } => {
+                // Enforcement tools live in their own crate (they depend
+                // on linkfyr-optimize's exec, so the registry cannot
+                // host them without a cycle). Same envelope, same
+                // honesty rules. Exact ids: the registry keeps its own
+                // kill_switch (status audit) and vpn_split_tunnel
+                // (advisory) tools.
+                const ENFORCE_TOOLS: &[&str] = &[
+                    "app_block",
+                    "app_allow",
+                    "app_rule_list",
+                    "app_rule_remove",
+                    "kill_switch_arm",
+                    "kill_switch_disarm",
+                    "vpn_split_enforce",
+                    "shaping",
+                    "shaping_remove",
+                    "traffic_priority",
+                ];
+                if ENFORCE_TOOLS.contains(&tool.as_str()) {
+                    let r = blocking(move || linkfyr_enforce::run(&tool, &params)).await;
+                    return Response::ToolRun(Box::new(r));
+                }
                 let r = blocking(move || linkfyr_optimize::registry::run(&tool, &params)).await;
                 Response::ToolRun(Box::new(r))
             }

@@ -7,6 +7,7 @@ members = [
     "crates/linkfyr-rules",
     "crates/linkfyr-optimize",
     "crates/linkfyr-bridge",
+    "crates/linkfyr-enforce",
     "crates/linkfyr-core",
     "crates/linkfyr-ipc",
     "crates/linkfyr-cli",
@@ -30,6 +31,7 @@ linkfyr-telemetry = { path = "crates/linkfyr-telemetry" }
 linkfyr-rules = { path = "crates/linkfyr-rules" }
 linkfyr-optimize = { path = "crates/linkfyr-optimize" }
 linkfyr-bridge = { path = "crates/linkfyr-bridge" }
+linkfyr-enforce = { path = "crates/linkfyr-enforce" }
 linkfyr-core = { path = "crates/linkfyr-core" }
 linkfyr-daemon = { path = "crates/linkfyr-daemon" }
 linkfyr-ipc = { path = "crates/linkfyr-ipc" }
@@ -46,7 +48,7 @@ clap = { version = "4", features = ["derive"] }
 directories = "6"
 uuid = { version = "1", features = ["v4", "serde"] }
 ureq = { version = "2", default-features = false, features = ["tls"] }
-socket2 = "0.6"
+socket2 = { version = "0.6", features = ["all"] }
 rustls = { version = "0.23", default-features = false, features = ["ring", "std", "tls12"] }
 webpki-roots = "0.26"
 x509-parser = "0.16"

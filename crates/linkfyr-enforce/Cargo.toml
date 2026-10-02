@@ -1,0 +1,16 @@
+[package]
+name = "linkfyr-enforce"
+description = "Enforcement v0: per-app firewall rules, kill switch, split-tunnel apply, Linux shaping - elevated-honest, owner-tagged"
+edition.workspace = true
+rust-version.workspace = true
+license-file.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+linkfyr-model = { workspace = true }
+linkfyr-optimize = { workspace = true }
+serde_json = { workspace = true }
+
+[lints]
+workspace = true

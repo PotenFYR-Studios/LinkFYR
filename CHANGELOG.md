@@ -6,6 +6,19 @@ All notable changes to LinkFYR are documented here. Format based on
 
 ## [Unreleased]
 
+### Added (enforcement v0 � Phase 3 core)
+
+- `linkfyr-enforce` crate: per-app firewall rules (Windows netsh
+  advfirewall true per-program; Linux nftables per-owner, honestly
+  labeled; macOS reported platform-limited), kill switch arm/disarm
+  (fail-closed outbound hold with established + loopback escape),
+  split-tunnel apply (executes the advisory routes), and Linux tc
+  shaping (fq_codel root + prio/DSCP priority). All owner-tagged so
+  removal only ever touches rules this tool created; unelevated runs
+  list the exact commands. Registry: 105 implemented / 107 named.
+
+## [Unreleased]
+
 Phase 2.5/2.6 — Optimization toolkit, tool registry (100+ module
 catalog), network bridges, background service, alerts.
 

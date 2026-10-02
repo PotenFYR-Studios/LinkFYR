@@ -693,6 +693,77 @@ pub fn catalog() -> Vec<ToolDescriptor> {
             "30-probe spike analysis with verdict",
             true,
         ),
+        // Enforcement v0 (linkfyr-enforce; dispatched by the engine).
+        d(
+            "app_block",
+            "App block",
+            "Control",
+            "Per-program firewall block (Windows netsh; Linux per-owner, labeled)",
+            true,
+        ),
+        d(
+            "app_allow",
+            "App allow",
+            "Control",
+            "Remove a LinkFYR-owned block rule",
+            true,
+        ),
+        d(
+            "app_rule_list",
+            "App rules list",
+            "Control",
+            "Every firewall rule this tool created",
+            false,
+        ),
+        d(
+            "app_rule_remove",
+            "Rules remove",
+            "Control",
+            "Remove all LinkFYR-owned rules (owner-tag scoped)",
+            false,
+        ),
+        d(
+            "kill_switch_arm",
+            "Kill switch arm",
+            "Control",
+            "Fail-closed outbound hold (established + loopback pass)",
+            false,
+        ),
+        d(
+            "kill_switch_disarm",
+            "Kill switch disarm",
+            "Control",
+            "Restore normal outbound policy",
+            false,
+        ),
+        d(
+            "vpn_split_enforce",
+            "Split tunnel apply",
+            "Control",
+            "Execute the advisory route: pin a host outside the VPN",
+            true,
+        ),
+        d(
+            "shaping",
+            "Shaping apply",
+            "Control",
+            "fq_codel root queue (Linux tc; latency-first)",
+            false,
+        ),
+        d(
+            "shaping_remove",
+            "Shaping remove",
+            "Control",
+            "Remove the LinkFYR qdisc",
+            false,
+        ),
+        d(
+            "traffic_priority",
+            "Priority",
+            "Control",
+            "prio qdisc + DSCP EF filter (Linux tc)",
+            false,
+        ),
     ]
 }
 
@@ -710,33 +781,9 @@ pub fn planned_catalog() -> Vec<ToolDescriptor> {
     vec![
         d(
             "per_app_limits",
-            "Per-app limits",
+            "Per-app rate limits",
             "Control",
-            "Rate ceilings per process — blocked on WFP/nftables enforcement (Phase 3)",
-        ),
-        d(
-            "traffic_priority",
-            "Priority",
-            "Control",
-            "DSCP marking per app — blocked on enforcement (Phase 3)",
-        ),
-        d(
-            "bandwidth_guarantee",
-            "Shaping",
-            "Control",
-            "HTB/fq_codel guarantees — blocked on enforcement (Phase 3)",
-        ),
-        d(
-            "kill_switch_enforce",
-            "Kill-switch enforcement",
-            "Control",
-            "Fail-closed firewall hold (status audit is live) — blocked on enforcement (Phase 3)",
-        ),
-        d(
-            "vpn_split_enforce",
-            "Split-tunnel enforcement",
-            "Control",
-            "Auto-apply the advisory routes (advisory is live) — blocked on enforcement (Phase 3)",
+            "Rate ceilings per process — needs flow accounting + rate shaping (block/allow is live; this is the rate knob)",
         ),
         d(
             "night_shift",
