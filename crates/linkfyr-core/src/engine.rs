@@ -185,6 +185,101 @@ impl AppEngine {
             .collect()
     }
 
+    /// Stored Flow Rules (persisted in the config store).
+    pub fn rules(&self) -> Vec<linkfyr_rules::Rule> {
+        self.config.read().expect("config lock").rules.clone()
+    }
+
+    pub fn upsert_rule(&self, rule: linkfyr_rules::Rule) -> Result<(), String> {
+        let mut cfg = self.config();
+        let id = rule.id.clone();
+        cfg.rules.retain(|r| r.id != id);
+        cfg.rules.push(rule);
+        cfg.rules.sort_by_key(|r| r.priority);
+        self.store
+            .lock()
+            .expect("store lock")
+            .save(&cfg)
+            .map_err(|e| e.to_string())?;
+        *self.config.write().expect("config lock") = cfg;
+        Ok(())
+    }
+
+    pub fn remove_rule(&self, id: &str) -> Result<(), String> {
+        let mut cfg = self.config();
+        let before = cfg.rules.len();
+        cfg.rules.retain(|r| r.id != id);
+        if cfg.rules.len() == before {
+            return Err(format!("no rule with id '{id}'"));
+        }
+        self.store
+            .lock()
+            .expect("store lock")
+            .save(&cfg)
+            .map_err(|e| e.to_string())?;
+        *self.config.write().expect("config lock") = cfg;
+        Ok(())
+    }
+
+    /// Evaluate stored rules against the current snapshot. The context
+    /// is built from live telemetry: interface names, health, Internet
+    /// quality. Domain/app predicates fire once per-app accounting
+    /// lands (Phase 2); everything else evaluates now.
+    pub fn evaluate_rules(&self, snap: &Snapshot) -> Vec<linkfyr_ipc::RuleDecision> {
+        let rules = self.rules();
+        if rules.is_empty() {
+            return vec![];
+        }
+        let best_health = snap
+            .interfaces
+            .iter()
+            .filter_map(|t| t.health.as_ref().map(|h| h.overall))
+            .max()
+            .unwrap_or(100);
+        let _any_iface_down = snap
+            .interfaces
+            .iter()
+            .any(|t| t.interface.status == linkfyr_model::IfStatus::Down);
+        let loss = snap.internet.loss_pct.unwrap_or(0.0);
+        let ctx = linkfyr_rules::RuleContext {
+            app: None,
+            process: None,
+            domain: None,
+            ip: None,
+            port: None,
+            protocol: None,
+            category: None,
+            interface_id: None,
+            ssid: None,
+            battery_percent: None,
+            charging: None,
+            metered: None,
+            interface_health: Some(best_health),
+            latency_ms: snap.internet.rtt_avg_ms,
+            jitter_ms: snap.internet.jitter_ms,
+            loss_pct: Some(loss),
+            minute_of_day: Some(
+                std::time::SystemTime::now()
+                    .duration_since(std::time::UNIX_EPOCH)
+                    .map_or(0, |d| ((d.as_secs() % 86400) / 60) as u32),
+            ),
+            day_of_week: None,
+        };
+        linkfyr_rules::evaluate(&rules, &ctx)
+            .into_iter()
+            .map(|d| linkfyr_ipc::RuleDecision {
+                rule_id: d.rule.id.clone(),
+                action: d
+                    .actions
+                    .iter()
+                    .map(|a| format!("{a:?}"))
+                    .collect::<Vec<_>>()
+                    .join(", "),
+                reason: d.rule.name.clone(),
+            })
+            .collect()
+    }
+
     pub fn degraded_note(&self) -> Option<&str> {
         self.degraded_note.as_deref()
     }
@@ -417,6 +512,31 @@ impl AppEngine {
                 self.ingest_snapshot(&snap);
                 Response::Alerts {
                     alerts: self.alerts(),
+                }
+            }
+            Request::RulesList => Response::Rules {
+                rules: self.rules(),
+            },
+            Request::RulesUpsert { rule } => match self.upsert_rule(rule) {
+                Ok(()) => Response::Rules {
+                    rules: self.rules(),
+                },
+                Err(e) => {
+                    Response::Error(Box::new(linkfyr_ipc::ApiError::new(ErrorCode::Internal, e)))
+                }
+            },
+            Request::RulesRemove { id } => match self.remove_rule(&id) {
+                Ok(()) => Response::Rules {
+                    rules: self.rules(),
+                },
+                Err(e) => {
+                    Response::Error(Box::new(linkfyr_ipc::ApiError::new(ErrorCode::NotFound, e)))
+                }
+            },
+            Request::RulesEvaluate => {
+                let snap = self.snapshot().await;
+                Response::RuleEvaluated {
+                    decisions: self.evaluate_rules(&snap),
                 }
             }
         }

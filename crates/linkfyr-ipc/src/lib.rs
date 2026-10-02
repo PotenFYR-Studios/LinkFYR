@@ -126,6 +126,14 @@ pub enum Request {
     BridgeRemove { name: String },
     /// Recent engine alerts (interface up/down, health drops).
     GetAlerts,
+    /// Flow Rules: list all stored rules.
+    RulesList,
+    /// Flow Rules: add or replace a rule (by id).
+    RulesUpsert { rule: linkfyr_rules::Rule },
+    /// Flow Rules: remove a rule by id.
+    RulesRemove { id: String },
+    /// Flow Rules: evaluate stored rules against the current snapshot.
+    RulesEvaluate,
 }
 
 /// Engine → client responses.
@@ -157,6 +165,8 @@ pub enum Response {
     Bridges { bridges: Vec<BridgeInfo> },
     BridgeReported(Box<BridgeReport>),
     Alerts { alerts: Vec<Alert> },
+    Rules { rules: Vec<linkfyr_rules::Rule> },
+    RuleEvaluated { decisions: Vec<RuleDecision> },
     Error(Box<ApiError>),
 }
 
@@ -181,6 +191,14 @@ pub struct Alert {
     pub title: String,
     pub body: String,
     pub timestamp_ms: u64,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct RuleDecision {
+    pub rule_id: String,
+    pub action: String,
+    pub reason: String,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
@@ -256,6 +274,9 @@ pub enum AnimationLevel {
 pub struct Config {
     pub schema_version: u32,
     pub preferences: Preferences,
+    /// Flow Rules (Phase 4): persisted, evaluated on each snapshot.
+    #[serde(default)]
+    pub rules: Vec<linkfyr_rules::Rule>,
 }
 
 impl Default for Config {
@@ -263,6 +284,7 @@ impl Default for Config {
         Self {
             schema_version: 1,
             preferences: Preferences::default(),
+            rules: Vec::new(),
         }
     }
 }

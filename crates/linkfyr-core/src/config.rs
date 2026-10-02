@@ -164,6 +164,7 @@ mod tests {
                 theme,
                 ..Preferences::default()
             },
+            rules: Vec::new(),
         }
     }
 

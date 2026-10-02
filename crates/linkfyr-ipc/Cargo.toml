@@ -8,6 +8,7 @@ repository.workspace = true
 
 [dependencies]
 linkfyr-model.workspace = true
+linkfyr-rules.workspace = true
 serde.workspace = true
 serde_json.workspace = true
 thiserror.workspace = true
