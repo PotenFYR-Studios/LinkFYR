@@ -1,0 +1,17 @@
+[package]
+name = "linkfyr-model"
+description = "LinkFYR shared data model: the single source of truth for wire and internal types"
+version.workspace = true
+edition.workspace = true
+license-file.workspace = true
+repository.workspace = true
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+
+[dev-dependencies]
+serde_json.workspace = true
+
+[lints]
+workspace = true

@@ -1,0 +1,20 @@
+[package]
+name = "linkfyr-network"
+description = "LinkFYR platform abstraction: interface discovery, counters, and (later) traffic control"
+version.workspace = true
+edition.workspace = true
+license-file.workspace = true
+repository.workspace = true
+
+[dependencies]
+linkfyr-model.workspace = true
+netdev.workspace = true
+sysinfo.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
+
+[dev-dependencies]
+tokio.workspace = true
+
+[lints]
+workspace = true

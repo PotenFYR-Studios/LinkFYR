@@ -1,0 +1,197 @@
+name: release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      channel:
+        description: Release channel
+        type: choice
+        options: [stable, beta, nightly]
+        default: stable
+
+permissions:
+  contents: write
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    name: ${{ matrix.label }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: windows-x64
+            os: windows-latest
+            args: "--target x86_64-pc-windows-msvc"
+          - label: windows-arm64
+            os: windows-latest
+            args: "--target aarch64-pc-windows-msvc"
+          - label: macos-universal
+            os: macos-latest
+            args: "--target universal-apple-darwin"
+          - label: linux-x64
+            os: ubuntu-22.04
+            args: ""
+          - label: linux-arm64
+            os: ubuntu-22.04-arm
+            args: ""
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ contains(matrix.args, 'aarch64') && 'aarch64-pc-windows-msvc' || contains(matrix.args, 'universal') && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
+      - uses: Swatinem/rust-cache@v2
+        with:
+          key: ${{ matrix.label }}
+      - name: Linux system deps
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev patchelf
+      - name: frontend build
+        run: |
+          npm i -g pnpm@12.8.1
+          pnpm install --frozen-lockfile
+          pnpm build
+        shell: bash
+      - name: build CLI + headless binaries
+        run: cargo build --release -p linkfyr-cli ${{ matrix.args }}
+      - name: build Tauri bundles
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Signing is optional at build time; unsigned artifacts are still
+          # published with checksums. Configure these secrets to enable:
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+          APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
+          APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          WINDOWS_CERTIFICATE: ${{ secrets.WINDOWS_CERTIFICATE }}
+          WINDOWS_CERTIFICATE_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
+        with:
+          args: ${{ matrix.args }}
+      - name: stage CLI artifacts
+        shell: bash
+        run: |
+          mkdir -p dist-cli
+          ver="${GITHUB_REF_NAME#v}"
+          bin="target/release/linkfyr"
+          [ -f "$bin.exe" ] && bin="$bin.exe"
+          case "$RUNNER_OS" in
+            Windows) os="windows"; ext="zip" ;;
+            macOS)   os="macos";  ext="tar.gz" ;;
+            *)       os="linux";  ext="tar.gz" ;;
+          esac
+          case "${{ matrix.label }}" in
+            *arm64*) arch="arm64" ;;
+            *universal*) arch="universal" ;;
+            *) arch="x64" ;;
+          esac
+          name="linkfyr-cli_${ver}_${os}_${arch}"
+          if [ "$ext" = "zip" ]; then
+            powershell -Command "Compress-Archive -Path '$bin' -DestinationPath 'dist-cli/${name}.zip' -Force"
+          else
+            tar czf "dist-cli/${name}.tar.gz" -C "$(dirname "$bin")" "$(basename "$bin")"
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: artifacts-${{ matrix.label }}
+          path: |
+            dist-cli/*
+            target/release/bundle/**/*
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+      - name: collect + checksums
+        run: |
+          mkdir -p release
+          find artifacts -type f \( -name "*.msi" -o -name "*.exe" -o -name "*.dmg" -o -name "*.AppImage" -o -name "*.deb" -o -name "*.rpm" -o -name "*.tar.gz" -o -name "*.zip" -o -name "latest.json" \) -exec cp {} release/ \;
+          cd release
+          sha256sum * > SHA256SUMS
+      - name: SBOM (CycloneDX via cargo cyclonedx if available)
+        run: |
+          cargo install cargo-cyclonedx --locked || true
+          cargo cyclonedx --all --format json || echo "SBOM skipped (tool unavailable)"
+          cp -v target/*.cdx.json release/ 2>/dev/null || true
+      - name: extract changelog section for this version
+        env:
+          GITHUB_REF_NAME: ${{ github.ref_name }}
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          VER="${TAG#v}"
+          # Grab the "## [VER] ..." section from CHANGELOG.md (up to the
+          # next "## [" heading). Falls back to [Unreleased], then a stub.
+          for needle in "$VER" "Unreleased"; do
+            awk -v sect="## [$needle]" '
+              BEGIN { found = 0 }
+              /^## \[/ {
+                if (found) exit
+                if (index($0, sect"]") == 1) found = 1
+              }
+              found { print }
+            ' CHANGELOG.md > "SECTION.$needle.md"
+            [ -s "SECTION.$needle.md" ] && { cp "SECTION.$needle.md" SECTION.md; break; }
+          done
+          [ -s SECTION.md ] || { echo "_No changelog section for ${VER}; see [CHANGELOG.md](./CHANGELOG.md)._" > SECTION.md; }
+      - name: release notes
+        env:
+          GITHUB_REF_NAME: ${{ github.ref_name }}
+        run: |
+          {
+            echo "## LinkFYR ${GITHUB_REF_NAME}"
+            echo
+            echo "Downloads below. Verify with \`SHA256SUMS\` before installing."
+            echo
+            echo "### Changelog"
+            echo
+            cat SECTION.md
+            echo
+            echo "### Verify"
+            echo '```'
+            echo "sha256sum -c SHA256SUMS --ignore-missing"
+            echo '```'
+          } > NOTES.md
+      # Idempotent publishing: re-releasing the same tag updates the
+      # existing builds (gh upload --clobber replaces same-named assets)
+      # and merges the changelog into the release body instead of
+      # failing or duplicating entries.
+      - name: publish (create, or update builds + merge changelog)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REF_NAME: ${{ github.ref_name }}
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1; then
+            echo "Release for $TAG exists: updating builds and merging changelog"
+            gh release view "$TAG" --repo "$GITHUB_REPOSITORY" --json body -q .body > EXISTING.md || true
+            HEADLINE="$(grep -m1 '^## ' SECTION.md || true)"
+            if [ -n "$HEADLINE" ] && grep -qF "$HEADLINE" EXISTING.md 2>/dev/null; then
+              echo "Changelog section already present; keeping existing body"
+              cp EXISTING.md MERGED.md
+            else
+              { cat SECTION.md; echo; echo "---"; echo; cat EXISTING.md; } > MERGED.md
+            fi
+            gh release edit "$TAG" --repo "$GITHUB_REPOSITORY" --notes-file MERGED.md
+            gh release upload "$TAG" release/* --clobber --repo "$GITHUB_REPOSITORY"
+          else
+            gh release create "$TAG" \
+              --repo "$GITHUB_REPOSITORY" \
+              --title "LinkFYR $TAG" \
+              --notes-file NOTES.md \
+              --prerelease="${{ contains(github.ref_name, '-') }}" \
+              release/*
+          fi

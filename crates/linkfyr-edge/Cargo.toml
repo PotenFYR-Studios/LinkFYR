@@ -1,0 +1,12 @@
+[package]
+name = "linkfyr-edge"
+description = "LinkFYR Edge node (Phase 6): terminates Fusion tunnels, reorders, forwards. Reserved skeleton â€” see docs/edge.md"
+version.workspace = true
+edition.workspace = true
+license-file.workspace = true
+repository.workspace = true
+
+[dependencies]
+
+[lints]
+workspace = true

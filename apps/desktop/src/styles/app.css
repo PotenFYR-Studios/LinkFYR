@@ -1,0 +1,317 @@
+@import "tailwindcss";
+@import "@fontsource-variable/schibsted-grotesk";
+@import "@fontsource/spline-sans-mono/400.css";
+@import "@fontsource/spline-sans-mono/500.css";
+
+/*
+ * LinkFYR design tokens (docs/ux.md).
+ * Dark-first: this is a network control center; engineers and gamers run
+ * it at night. Light mode is a first-class peer (R-34), not an afterthought.
+ */
+
+@theme {
+  --font-sans: "Schibsted Grotesk Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Spline Sans Mono", ui-monospace, monospace;
+
+  /* Surfaces: layered, slightly cool navy. Depth via surface steps. */
+  --color-base: #0b0e14;
+  --color-surface: #121724;
+  --color-raised: #19202f;
+  --color-overlay: #1f2739;
+  --color-stroke: #2a3247;
+  --color-stroke-soft: #1e2536;
+
+  --color-ink: #eef1f7;
+  --color-ink-muted: #a3aec2;
+  --color-ink-faint: #7f8ca3;
+
+  /* One accent (LinkFYR blue) + semantic set. Nothing else. */
+  --color-accent: #6b97ff;
+  --color-accent-soft: #9cb8ff;
+  --color-ok: #46e6a2;
+  --color-warn: #ffc06e;
+  --color-danger: #ff6b87;
+
+  /* Per-kind interface hues (stable, colorblind-checked pairings) */
+  --color-if-ethernet: #5b8cff;
+  --color-if-wifi: #3ddc97;
+  --color-if-cellular: #ffb454;
+  --color-if-virtual: #93a0b4;
+  --color-if-tunnel: #9b8cff;
+  --color-if-loopback: #5d6a7e;
+  --color-if-other: #93a0b4;
+
+  --radius-card: 14px;
+  --radius-control: 8px;
+
+  --text-2xs: 0.6875rem;
+  --text-2xs--line-height: 1rem;
+}
+
+/* Light theme: same structure, warm-neutral paper. */
+:root[data-theme="light"] {
+  --color-base: #eef0f5;
+  --color-surface: #ffffff;
+  --color-raised: #ffffff;
+  --color-overlay: #ffffff;
+  --color-stroke: #d8dce5;
+  --color-stroke-soft: #e6e9ef;
+  --color-ink: #151a24;
+  --color-ink-muted: #4d5768;
+  --color-ink-faint: #66707f;
+  --color-accent: #2a4fc0;
+  --color-accent-soft: #3f63d6;
+  --color-ok: #0a7a55;
+  --color-warn: #8a5c06;
+  --color-danger: #bf2342;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  background: var(--color-base);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+
+/* Ambient depth: one calm light source behind the content (fixed, so it
+   reads as environment rather than decoration). Purpose: hierarchy between
+   rail (closer) and content (farther) without heavy borders. */
+#root::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(900px 500px at 18% -8%, color-mix(in srgb, var(--color-accent) 9%, transparent), transparent 65%),
+    radial-gradient(700px 420px at 95% 110%, color-mix(in srgb, var(--color-ok) 4%, transparent), transparent 60%);
+  z-index: 0;
+}
+#root > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* All metrics use tabular numerals so charts/tables never jitter. */
+.num,
+table,
+[data-metric] {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-accent) 30%, transparent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Scrollbars stay out of the way. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-stroke) transparent;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--color-stroke);
+  border-radius: 4px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Motion: user setting + OS preference both gate animation. */
+:root[data-motion="off"] *,
+:root[data-motion="reduced"] * {
+  --lf-dur: 0ms;
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---- component primitives (composed, not a framework) ---- */
+
+.lf-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-stroke-soft);
+  border-radius: var(--radius-card);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.18);
+  transition:
+    border-color 180ms ease,
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+:root[data-theme="light"] .lf-card {
+  box-shadow: 0 1px 3px rgb(23 28 38 / 0.06);
+}
+.lf-card:hover {
+  border-color: var(--color-stroke);
+}
+
+.lf-rail-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  margin: 1px 8px;
+  border-radius: var(--radius-control);
+  color: var(--color-ink-muted);
+  transition:
+    background-color 160ms ease,
+    color 160ms ease;
+  cursor: default;
+  user-select: none;
+  border: 0;
+  background: transparent;
+  width: calc(100% - 16px);
+  font-size: 13px;
+  text-align: left;
+}
+.lf-rail-item:hover {
+  background: color-mix(in srgb, var(--color-ink) 6%, transparent);
+  color: var(--color-ink);
+}
+.lf-rail-item[data-active="true"] {
+  background: color-mix(in srgb, var(--color-accent) 14%, transparent);
+  color: var(--color-accent-soft);
+}
+.lf-rail-item[data-active="true"]::before {
+  content: "";
+  position: absolute;
+  left: -8px;
+  top: 7px;
+  bottom: 7px;
+  width: 2.5px;
+  border-radius: 2px;
+  background: var(--color-accent);
+}
+
+/* Hero hairline: activity shimmer whose speed tracks live sampling.
+   Purposeful motion: it reads as "link is alive", matches the 1 Hz beat. */
+@keyframes lf-shimmer {
+  0% {
+    transform: translateX(-60%);
+    opacity: 0;
+  }
+  35% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(160%);
+    opacity: 0;
+  }
+}
+.lf-hero-beat::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 1px;
+  width: 34%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--color-accent) 90%, transparent),
+    transparent
+  );
+  animation: lf-shimmer 3.2s ease-in-out infinite;
+}
+:root[data-motion="off"] .lf-hero-beat::after,
+:root[data-motion="reduced"] .lf-hero-beat::after {
+  display: none;
+}
+
+.lf-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: var(--radius-control);
+  border: 1px solid var(--color-stroke);
+  background: var(--color-raised);
+  color: var(--color-ink);
+  font-weight: 500;
+  transition:
+    background-color 120ms ease,
+    border-color 120ms ease;
+}
+.lf-btn:hover {
+  border-color: color-mix(in srgb, var(--color-accent) 40%, var(--color-stroke));
+}
+.lf-btn[data-variant="primary"] {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: #fff;
+}
+.lf-btn[data-variant="primary"]:hover {
+  background: var(--color-accent-soft);
+}
+
+.lf-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: var(--text-2xs);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+/* Live "recording" dot used on the hero metric. */
+@keyframes lf-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+.lf-live-dot {
+  animation: lf-pulse 2s ease-in-out infinite;
+}
+:root[data-motion="off"] .lf-live-dot,
+:root[data-motion="reduced"] .lf-live-dot {
+  animation: none;
+}
+
+@keyframes lf-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.lf-enter {
+  animation: lf-fade-up 240ms ease-out both;
+}

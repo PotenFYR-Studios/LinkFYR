@@ -1,0 +1,9 @@
+{
+  "name": "@linkfyr/types",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "description": "TypeScript mirror of the linkfyr-model wire contract (hand-synced until codegen lands; CI keeps both sides honest via JSON fixture round-trips)"
+}

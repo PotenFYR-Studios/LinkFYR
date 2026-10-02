@@ -1,0 +1,7 @@
+packages:
+  - apps/desktop
+  - packages/*
+
+# pnpm 12 build approval: esbuild needs its postinstall for vite.
+allowBuilds:
+  esbuild: true

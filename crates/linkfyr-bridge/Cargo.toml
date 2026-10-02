@@ -1,0 +1,15 @@
+[package]
+name = "linkfyr-bridge"
+description = "Network bridge manager: tiered (Hyper-V SET, NetNat fallback, Linux/macOS L2) with elevation-honest reporting"
+edition.workspace = true
+rust-version.workspace = true
+license-file.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+linkfyr-model = { workspace = true }
+linkfyr-optimize = { workspace = true }
+
+[lints]
+workspace = true

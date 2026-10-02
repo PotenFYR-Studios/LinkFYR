@@ -1,0 +1,19 @@
+[package]
+name = "linkfyr-telemetry"
+description = "LinkFYR telemetry: ring buffers, live engine, probes, health scoring"
+version.workspace = true
+edition.workspace = true
+license-file.workspace = true
+repository.workspace = true
+
+[dependencies]
+linkfyr-model.workspace = true
+linkfyr-network.workspace = true
+tokio.workspace = true
+tracing.workspace = true
+
+[dev-dependencies]
+serde_json.workspace = true
+
+[lints]
+workspace = true

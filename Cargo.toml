@@ -1,0 +1,86 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/linkfyr-model",
+    "crates/linkfyr-network",
+    "crates/linkfyr-telemetry",
+    "crates/linkfyr-rules",
+    "crates/linkfyr-optimize",
+    "crates/linkfyr-bridge",
+    "crates/linkfyr-core",
+    "crates/linkfyr-ipc",
+    "crates/linkfyr-cli",
+    "crates/linkfyr-daemon",
+    "crates/linkfyr-protocol",
+    "crates/linkfyr-edge",
+    "apps/desktop/src-tauri",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+license-file = "LICENSE"
+repository = "https://github.com/PotenFYR-Studios/linkfyr"
+
+[workspace.dependencies]
+linkfyr-model = { path = "crates/linkfyr-model" }
+linkfyr-network = { path = "crates/linkfyr-network" }
+linkfyr-telemetry = { path = "crates/linkfyr-telemetry" }
+linkfyr-rules = { path = "crates/linkfyr-rules" }
+linkfyr-optimize = { path = "crates/linkfyr-optimize" }
+linkfyr-bridge = { path = "crates/linkfyr-bridge" }
+linkfyr-core = { path = "crates/linkfyr-core" }
+linkfyr-daemon = { path = "crates/linkfyr-daemon" }
+linkfyr-ipc = { path = "crates/linkfyr-ipc" }
+
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "sync", "time", "net", "fs", "io-util"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt"] }
+netdev = "0.46"
+sysinfo = "0.39"
+clap = { version = "4", features = ["derive"] }
+directories = "6"
+uuid = { version = "1", features = ["v4", "serde"] }
+ureq = { version = "2", default-features = false, features = ["tls"] }
+socket2 = "0.6"
+rustls = { version = "0.23", default-features = false, features = ["ring", "std", "tls12"] }
+webpki-roots = "0.26"
+x509-parser = "0.16"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+strip = "debuginfo"
+
+[workspace.lints.rust]
+unsafe_code = "deny"
+
+[workspace.lints.clippy]
+all = { level = "warn", priority = -1 }
+pedantic = { level = "warn", priority = -1 }
+# Deliberate relaxations, each with a reason:
+module_name_repetitions = "allow"
+missing_errors_doc = "allow"
+missing_panics_doc = "allow"
+# Telemetry math converts counters (u64) to rates (f64) by design.
+cast_precision_loss = "allow"
+cast_possible_truncation = "allow"
+cast_sign_loss = "allow"
+cast_possible_wrap = "allow"
+# Rate/aggregate math compares exactly computed values in tests.
+float_cmp = "allow"
+# `#[must_use]` everywhere is noise for an internal engine API at v0.
+must_use_candidate = "allow"
+return_self_not_must_use = "allow"
+doc_markdown = "allow"
+missing_const_for_fn = "allow"
+redundant_closure_for_method_calls = "allow"
+# Async API surface stays uniform even where an impl is currently sync.
+unused_async = "allow"
+unused_async_trait_impl = "allow"
+# tick_once is a long but linear sampling pipeline; splitting it hurts readability.
+too_many_lines = "allow"

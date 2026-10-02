@@ -1,0 +1,16 @@
+[package]
+name = "linkfyr-ipc"
+description = "LinkFYR stable IPC API: request/response/event schemas shared by GUI, CLI, and daemon"
+version.workspace = true
+edition.workspace = true
+license-file.workspace = true
+repository.workspace = true
+
+[dependencies]
+linkfyr-model.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+
+[lints]
+workspace = true

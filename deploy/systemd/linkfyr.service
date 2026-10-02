@@ -1,0 +1,29 @@
+# linkfyrd system service unit (Linux).
+# Install: cp deploy/systemd/linkfyr.service /etc/systemd/system/
+#          systemctl daemon-reload && systemctl enable --now linkfyr
+[Unit]
+Description=LinkFYR background service (telemetry, optimization, bridges)
+Documentation=https://github.com/PotenFYR-Studios/linkfyr
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+# The token lives in StateDirectory and is 0600; the service itself needs
+# no privileges for monitoring. Elevation-requiring tools report
+# needs_elevation unless you grant CAP_NET_ADMIN deliberately.
+ExecStart=/usr/local/bin/linkfyrd
+Restart=on-failure
+RestartSec=3
+StateDirectory=linkfyr
+Environment=LINKFYR_DATA_DIR=/var/lib/linkfyr
+
+# Hardening
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+RestrictSUIDSGID=true
+
+[Install]
+WantedBy=multi-user.target

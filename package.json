@@ -1,0 +1,15 @@
+{
+  "name": "linkfyr",
+  "private": true,
+  "packageManager": "pnpm@12.8.1",
+  "scripts": {
+    "dev": "pnpm --filter linkfyr-desktop-ui dev",
+    "build": "pnpm --filter linkfyr-desktop-ui build",
+    "test": "pnpm --filter linkfyr-desktop-ui test",
+    "lint": "pnpm --filter linkfyr-desktop-ui lint",
+    "typecheck": "pnpm --filter linkfyr-desktop-ui typecheck"
+  },
+  "devDependencies": {
+    "typescript": "5.9.2"
+  }
+}

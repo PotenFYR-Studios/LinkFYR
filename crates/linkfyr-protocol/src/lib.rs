@@ -1,0 +1,1 @@
+﻿//! Reserved for the Fusion tunnel protocol (Phase 6). See docs/protocol.md. #![no_code_yet] skeletons compile empty by design so the workspace and CI stay green while the crate name and architecture slot are preserved.

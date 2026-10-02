@@ -1,0 +1,25 @@
+[package]
+name = "linkfyr-cli"
+description = "linkfyr CLI: status, interfaces, traffic from the command line"
+version.workspace = true
+edition.workspace = true
+license-file.workspace = true
+repository.workspace = true
+
+[dependencies]
+linkfyr-core.workspace = true
+linkfyr-ipc.workspace = true
+linkfyr-model.workspace = true
+linkfyr-optimize.workspace = true
+linkfyr-daemon.workspace = true
+clap.workspace = true
+tokio.workspace = true
+serde_json.workspace = true
+directories.workspace = true
+
+[[bin]]
+name = "linkfyr"
+path = "src/bin/linkfyr.rs"
+
+[lints]
+workspace = true
