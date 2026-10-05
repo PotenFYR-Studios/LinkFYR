@@ -76,7 +76,8 @@ fn interfaces_with_ips() -> Vec<(String, String)> {
 /// TCP connect bound to a specific interface (Linux SO_BINDTODEVICE;
 /// needs elevation, unavailable without it — reported honestly).
 fn bound_connect_ms(iface: &str, addr: SocketAddr) -> Result<f64, String> {
-    #[cfg(unix)]
+    // socket2::Socket::bind_device exists only on Android/Fuchsia/Linux.
+    #[cfg(any(target_os = "android", target_os = "fuchsia", target_os = "linux"))]
     {
         use socket2::{Domain, Type};
         let domain = if addr.is_ipv4() {
@@ -92,7 +93,7 @@ fn bound_connect_ms(iface: &str, addr: SocketAddr) -> Result<f64, String> {
         sock.connect(&sa).map_err(|e| e.to_string())?;
         Ok(start.elapsed().as_secs_f64() * 1000.0)
     }
-    #[cfg(not(unix))]
+    #[cfg(not(any(target_os = "android", target_os = "fuchsia", target_os = "linux")))]
     {
         let _ = (iface, addr);
         Err("per-interface binding needs Linux (SO_BINDTODEVICE); unavailable here".to_string())
@@ -190,7 +191,7 @@ pub fn speed_compare(params: &BTreeMap<String, String>) -> ToolRunReport {
     if host.is_empty() {
         return not("speed_compare", "endpoint must be http(s)://…");
     }
-    #[cfg(unix)]
+    #[cfg(any(target_os = "android", target_os = "fuchsia", target_os = "linux"))]
     {
         let ifaces = interfaces_with_ips();
         if ifaces.is_empty() {
@@ -246,7 +247,7 @@ pub fn speed_compare(params: &BTreeMap<String, String>) -> ToolRunReport {
             serde_json::json!({ "rows": rows }),
         )
     }
-    #[cfg(not(unix))]
+    #[cfg(not(any(target_os = "android", target_os = "fuchsia", target_os = "linux")))]
     {
         let _ = (url, host);
         not(
@@ -256,7 +257,7 @@ pub fn speed_compare(params: &BTreeMap<String, String>) -> ToolRunReport {
     }
 }
 
-#[cfg(unix)]
+#[cfg(any(target_os = "android", target_os = "fuchsia", target_os = "linux"))]
 fn bound_stream(iface: &str, host: &str) -> Result<TcpStream, String> {
     use socket2::{Domain, Type};
     let addr: SocketAddr = (host, 443u16)
