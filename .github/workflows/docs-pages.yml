@@ -15,6 +15,10 @@ on:
 
 permissions:
   contents: read
+  # configure-pages (build job) needs pages: write to create/enable the
+  # Pages site on first run; deploy-pages needs id-token: write.
+  pages: write
+  id-token: write
 
 concurrency:
   group: pages
