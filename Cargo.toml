@@ -26,18 +26,18 @@ license-file = "LICENSE"
 repository = "https://github.com/PotenFYR-Studios/linkfyr"
 
 [workspace.dependencies]
-linkfyr-model = { path = "crates/linkfyr-model" }
-linkfyr-network = { path = "crates/linkfyr-network" }
-linkfyr-telemetry = { path = "crates/linkfyr-telemetry" }
-linkfyr-rules = { path = "crates/linkfyr-rules" }
-linkfyr-optimize = { path = "crates/linkfyr-optimize" }
-linkfyr-bridge = { path = "crates/linkfyr-bridge" }
-linkfyr-enforce = { path = "crates/linkfyr-enforce" }
-linkfyr-core = { path = "crates/linkfyr-core" }
-linkfyr-daemon = { path = "crates/linkfyr-daemon" }
-linkfyr-protocol = { path = "crates/linkfyr-protocol" }
-linkfyr-edge = { path = "crates/linkfyr-edge" }
-linkfyr-ipc = { path = "crates/linkfyr-ipc" }
+linkfyr-model = { path = "crates/linkfyr-model", version = "0.1.0" }
+linkfyr-network = { path = "crates/linkfyr-network", version = "0.1.0" }
+linkfyr-telemetry = { path = "crates/linkfyr-telemetry", version = "0.1.0" }
+linkfyr-rules = { path = "crates/linkfyr-rules", version = "0.1.0" }
+linkfyr-optimize = { path = "crates/linkfyr-optimize", version = "0.1.0" }
+linkfyr-bridge = { path = "crates/linkfyr-bridge", version = "0.1.0" }
+linkfyr-enforce = { path = "crates/linkfyr-enforce", version = "0.1.0" }
+linkfyr-core = { path = "crates/linkfyr-core", version = "0.1.0" }
+linkfyr-daemon = { path = "crates/linkfyr-daemon", version = "0.1.0" }
+linkfyr-protocol = { path = "crates/linkfyr-protocol", version = "0.1.0" }
+linkfyr-edge = { path = "crates/linkfyr-edge", version = "0.1.0" }
+linkfyr-ipc = { path = "crates/linkfyr-ipc", version = "0.1.0" }
 
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"

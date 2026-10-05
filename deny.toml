@@ -3,6 +3,12 @@
 [advisories]
 version = 2
 yanked = "deny"
+ignore = [
+  # proc-macro-error 1.x is unmaintained. It is a build-time dependency of
+  # the gtk-rs 0.18 macros pulled in by Tauri's Linux stack; no fixed
+  # release exists, and it never ships in runtime artifacts.
+  { id = "RUSTSEC-2024-0370", reason = "unmaintained transitive build-dependency of gtk-rs 0.18 macros via tauri; no fixed release available" },
+]
 
 [licenses]
 version = 2
