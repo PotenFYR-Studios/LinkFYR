@@ -543,14 +543,17 @@ mod tests {
             adapter_reset(&p(&[("interface", "eth0")])),
             winsock_reset(),
         ] {
-            if cfg!(unix) || r.tool != "winsock_reset" {
-                assert_eq!(
-                    r.data.get("outcome").and_then(|o| o.as_str()),
-                    Some("needs_elevation"),
-                    "{}",
-                    r.summary
-                );
+            if r.tool == "winsock_reset" && !cfg!(windows) {
+                // Windows-only repair: elsewhere it reports the honest
+                // fallback instead of an elevation outcome.
+                continue;
             }
+            assert_eq!(
+                r.data.get("outcome").and_then(|o| o.as_str()),
+                Some("needs_elevation"),
+                "{}",
+                r.summary
+            );
         }
     }
 

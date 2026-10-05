@@ -74,6 +74,9 @@ pub fn parse_linux(output: &str) -> Vec<RouteEntry> {
         }
         let dest = if toks[0] == "default" {
             "0.0.0.0/0".to_string()
+        } else if toks[0].parse::<Ipv4Addr>().is_ok() {
+            // iproute2 elides the /32 suffix on host routes.
+            format!("{}/32", toks[0])
         } else {
             toks[0].to_string()
         };
@@ -269,7 +272,7 @@ mod tests {
 
     const WIN_FIXTURE: &str = "===========================================================================\nInterface List\n  12...00 ff aa bb cc dd ......Intel(R) Ethernet\n===========================================================================\n\nActive Routes:\nNetwork Destination        Netmask          Gateway       Interface  Metric\n          0.0.0.0          0.0.0.0      192.168.1.1    192.168.1.50     25\n          0.0.0.0          0.0.0.0     10.212.54.1    10.212.54.20     5\n        0.0.0.0/1  255.255.255.255?      10.8.0.1     10.8.0.23       1\n      128.0.0.0/1? nope\n        127.0.0.0        255.0.0.0         On-link        127.0.0.1    331\n      192.168.1.0    255.255.255.0         On-link     192.168.1.50    281\n===========================================================================\nPersistent Routes:\n  None\n";
 
-    const LINUX_FIXTURE: &str = "default via 192.168.1.1 dev eth0 proto dhcp metric 100\ndefault via 10.8.0.1 dev tun0 metric 50\n192.168.1.0/24 dev eth0 proto kernel scope link src 192.168.1.50 metric 100\n10.8.0.0/24 dev tun0 proto kernel scope link src 10.8.0.23\n128.0.0.0/1 via 10.8.0.1 dev tun0\n0.0.0.0/1 via 10.8.0.1 dev tun0\n";
+    const LINUX_FIXTURE: &str = "default via 192.168.1.1 dev eth0 proto dhcp metric 100\ndefault via 10.8.0.1 dev tun0 metric 50\n192.168.1.0/24 dev eth0 proto kernel scope link src 192.168.1.50 metric 100\n10.8.0.0/24 dev tun0 proto kernel scope link src 10.8.0.23\n168.63.129.16 via 192.168.1.1 dev eth0 metric 100\n128.0.0.0/1 via 10.8.0.1 dev tun0\n0.0.0.0/1 via 10.8.0.1 dev tun0\n";
 
     const MACOS_FIXTURE: &str = "Routing tables\n\nInternet:\nDestination        Gateway            Flags           Netif Expire\ndefault            192.168.1.1        UGScg             en0\n127                127.0.0.1          UCS               lo0\n128.0/1            10.8.0.1           UGSc            utun3\n0/1                10.8.0.1           UGSc            utun3\n192.168.1          link#1             UCS               en0      !\n";
 
@@ -328,6 +331,10 @@ mod tests {
             .find(|e| e.destination == "0.0.0.0/0" && e.interface.as_deref() == Some("tun0"))
             .unwrap();
         assert_eq!(tun_default.metric, Some(50));
+        assert!(
+            entries.iter().any(|e| e.destination == "168.63.129.16/32"),
+            "bare iproute2 host routes normalize to /32"
+        );
     }
 
     #[test]
