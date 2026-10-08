@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://linkfyr.docs.potenfyr.in/sitemap.xml

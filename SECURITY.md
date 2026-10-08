@@ -51,7 +51,7 @@ tool queries (DoH providers, RDAP, Cloudflare), and purely local denial of
 service that requires the user to run a destructive action they explicitly
 confirmed.
 
-**Built-in defenses** (full detail in [https://linkfyr.docs.potenfyr.in/docs/threat-model/](threat-model.md)):
+**Built-in defenses** (full detail in [https:/docs.potenfyr.in/LinkFYR/threat-model/](threat-model.md)):
 
 - Local-only by default; there is no telemetry upload path anywhere in the code.
 - `linkfyrd` binds loopback unless remote access is explicitly enabled; token is
