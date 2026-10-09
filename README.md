@@ -4,7 +4,7 @@
 
 [![GitHub](https://img.shields.io/badge/GitHub-PotenFYR--Studios-181717?style=for-the-badge&logo=github&logoColor=white&labelColor=1c1e26)](https://github.com/PotenFYR-Studios/LinkFYR)
 [![Discord](https://img.shields.io/badge/Discord-Join%20us-5865F2?style=for-the-badge&logo=discord&logoColor=white&labelColor=1c1e26)](https://discord.com/invite/zUaN2FPBec)
-[![Docs](https://img.shields.io/badge/https:/docs.potenfyr.in/LinkFYR-6b97ff?style=for-the-badge&logo=readthedocs&logoColor=white&labelColor=1c1e26)](https:/docs.potenfyr.in/LinkFYR)
+[![Docs](https://img.shields.io/badge/https://docs.potenfyr.in/repo/linkfyr?style=for-the-badge&logo=readthedocs&logoColor=white&labelColor=1c1e26)](https://docs.potenfyr.in/repo/linkfyr)
 [![Releases](https://img.shields.io/github/v/release/PotenFYR-Studios/LinkFYR?style=for-the-badge&logo=github&logoColor=white&labelColor=1c1e26&color=6b97ff)](https://github.com/PotenFYR-Studios/LinkFYR/releases)
 [![View](https://komarev.com/ghpvc/?username=PotenFYR-Studios-LinkFYR&color=3ddc97&style=for-the-badge&label=VIEW&labelColor=1c1e26)](https://github.com/PotenFYR-Studios/LinkFYR)
 
@@ -17,7 +17,7 @@
 
 **LinkFYR**: the operating system for your Internet connections. One control layer for what your apps do on the network: which interface carries them, how much bandwidth they get, which VPN or DNS they use, how traffic behaves when quality changes - and a full, explainable history of why.
 
-[Releases](https://github.com/PotenFYR-Studios/LinkFYR/releases) � [Documentation](docs/) � [Roadmap](https:/docs.potenfyr.in/LinkFYR/roadmap/) � [Daemon install](https:/docs.potenfyr.in/LinkFYR/daemon/) � [Contributing](CONTRIBUTING.md) � [Security](SECURITY.md)
+[Releases](https://github.com/PotenFYR-Studios/LinkFYR/releases) � [Documentation](docs/) � [Roadmap](https://docs.potenfyr.in/repo/linkfyr/roadmap) � [Daemon install](https://docs.potenfyr.in/repo/linkfyr/daemon) � [Contributing](CONTRIBUTING.md) � [Security](SECURITY.md)
 
 </div>
 
@@ -34,7 +34,7 @@ Every network tool does one slice: a speed test here, a Wi-Fi scanner there, a l
 - **Honest by design** - every tool reports its real capability state (available / needs elevation / unavailable / platform-limited), failed probes stay visible, and any capability the OS does not offer is documented rather than faked. Local-only by default: no account, no cloud, no telemetry upload path.
 - **Free and open** - every feature ships to everyone. No tiers, no entitlement gates, no locked controls.
 
-> The architecture lives in [Architecture](https:/docs.potenfyr.in/LinkFYR/architecture/); every feature ever specified is preserved and classified in [Roadmap](https:/docs.potenfyr.in/LinkFYR/roadmap/). The registry contains **108 implemented modules**; every entry runs for real on at least one platform, and unshipped ideas stay preserved by name in the roadmap instead of being faked.
+> The architecture lives in [Architecture](https://docs.potenfyr.in/repo/linkfyr/architecture); every feature ever specified is preserved and classified in [Roadmap](https://docs.potenfyr.in/repo/linkfyr/roadmap). The registry contains **108 implemented modules**; every entry runs for real on at least one platform, and unshipped ideas stay preserved by name in the roadmap instead of being faked.
 
 ## Quick start (development)
 
@@ -114,7 +114,7 @@ probes, real UDP DNS exchanges, a real rustls handshake.
 
 ## Platforms
 
-Windows, macOS and Linux; x64, ARM64 and universal builds per release. Per-OS capability is documented honestly in [Platform support](https:/docs.potenfyr.in/LinkFYR/platform-support/) - where an OS does not offer an API, LinkFYR says so and picks the nearest supported alternative.
+Windows, macOS and Linux; x64, ARM64 and universal builds per release. Per-OS capability is documented honestly in [Platform support](https://docs.potenfyr.in/repo/linkfyr/platform-support) - where an OS does not offer an API, LinkFYR says so and picks the nearest supported alternative.
 
 ## Repository layout
 
@@ -148,21 +148,21 @@ Architecture rule (ADR-0001): all capability lives in Rust behind `linkfyr-ipc`;
 
 | Doc | Contents |
 |---|---|
-| [Architecture](https:/docs.potenfyr.in/LinkFYR/architecture/) | process topology, crate map, data flow, budgets |
-| [Platform support](https:/docs.potenfyr.in/LinkFYR/platform-support/) | per-OS capability matrix (never fakes parity) |
-| [Roadmap](https:/docs.potenfyr.in/LinkFYR/roadmap/) | every spec feature, classified Now/Next/Later, nothing dropped |
-| [linkfyrd service](https:/docs.potenfyr.in/LinkFYR/daemon/) | installing linkfyrd (Windows service, systemd, launchd) |
-| [Mobile companion](https:/docs.potenfyr.in/LinkFYR/mobile/) | building the Tauri 2 mobile companion (Android/iOS) |
-| [Threat model](https:/docs.potenfyr.in/LinkFYR/threat-model/) | STRIDE model + fail-open/fail-closed policy table |
-| [Security engineering](https:/docs.potenfyr.in/LinkFYR/security/) | IPC hardening, supply chain, signing, secrets |
-| [Competitor matrix](https:/docs.potenfyr.in/LinkFYR/competitors/) | living competitor matrix with evidence grades |
-| [User demand research](https:/docs.potenfyr.in/LinkFYR/user-demand-research/) | community demand to requirements, evidence-graded |
-| [Fusion protocol](https:/docs.potenfyr.in/LinkFYR/protocol/) | Fusion bonding protocol design (pre-benchmark) |
-| [UX and design system](https:/docs.potenfyr.in/LinkFYR/ux/) | design system, motion dials, accessibility standard |
+| [Architecture](https://docs.potenfyr.in/repo/linkfyr/architecture) | process topology, crate map, data flow, budgets |
+| [Platform support](https://docs.potenfyr.in/repo/linkfyr/platform-support) | per-OS capability matrix (never fakes parity) |
+| [Roadmap](https://docs.potenfyr.in/repo/linkfyr/roadmap) | every spec feature, classified Now/Next/Later, nothing dropped |
+| [linkfyrd service](https://docs.potenfyr.in/repo/linkfyr/daemon) | installing linkfyrd (Windows service, systemd, launchd) |
+| [Mobile companion](https://docs.potenfyr.in/repo/linkfyr/mobile) | building the Tauri 2 mobile companion (Android/iOS) |
+| [Threat model](https://docs.potenfyr.in/repo/linkfyr/threat-model) | STRIDE model + fail-open/fail-closed policy table |
+| [Security engineering](https://docs.potenfyr.in/repo/linkfyr/security) | IPC hardening, supply chain, signing, secrets |
+| [Competitor matrix](https://docs.potenfyr.in/repo/linkfyr/competitors) | living competitor matrix with evidence grades |
+| [User demand research](https://docs.potenfyr.in/repo/linkfyr/user-demand-research) | community demand to requirements, evidence-graded |
+| [Fusion protocol](https://docs.potenfyr.in/repo/linkfyr/protocol) | Fusion bonding protocol design (pre-benchmark) |
+| [UX and design system](https://docs.potenfyr.in/repo/linkfyr/ux) | design system, motion dials, accessibility standard |
 
 ## Privacy
 
-Local-only by default. Measurements never leave the device unless you explicitly run an opt-in external tool (public IP, geolocation, RDAP); there is no account, no cloud dependency and no telemetry upload path. See [Security engineering](https:/docs.potenfyr.in/LinkFYR/security/).
+Local-only by default. Measurements never leave the device unless you explicitly run an opt-in external tool (public IP, geolocation, RDAP); there is no account, no cloud dependency and no telemetry upload path. See [Security engineering](https://docs.potenfyr.in/repo/linkfyr/security).
 
 ## Contributing
 
